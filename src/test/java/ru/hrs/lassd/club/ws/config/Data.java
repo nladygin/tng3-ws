@@ -1,11 +1,19 @@
 package ru.hrs.lassd.club.ws.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource({"data.properties"})
 public class Data {
+
+    @Value("${profile_lookup_last_name}")   public String profileLookupLastName;
+    @Value("${profile_lookup_first_name}")  public String profileLookupFirstName;
+    @Value("${profile_lookup_room}")        public int profileLookupRoom;
+    @Value("${profile_lookup_card}")        public int profileLookupCard;
+
+
 /*
     @Value("${outlet_id}")                      public int outletID;
     @Value("${offset}")                         public int offset;
