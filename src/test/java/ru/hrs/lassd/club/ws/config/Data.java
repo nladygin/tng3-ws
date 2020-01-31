@@ -8,15 +8,17 @@ import org.springframework.stereotype.Component;
 @PropertySource({"data.properties"})
 public class Data {
 
+    @Value("${site_id}")                    public int siteId;
+    @Value("${outlet_id}")                  public int outletID;
+
     @Value("${profile_lookup_last_name}")   public String profileLookupLastName;
     @Value("${profile_lookup_first_name}")  public String profileLookupFirstName;
     @Value("${profile_lookup_room}")        public int profileLookupRoom;
     @Value("${profile_lookup_card}")        public int profileLookupCard;
+    @Value("${fetch_profile_magstripe}")    public String fetchProfileMagstripe;
 
 
 /*
-    @Value("${outlet_id}")                      public int outletID;
-    @Value("${offset}")                         public int offset;
     @Value("${count}")                          public int count;
 
     @Value("${card_id}")                        public int cardID;

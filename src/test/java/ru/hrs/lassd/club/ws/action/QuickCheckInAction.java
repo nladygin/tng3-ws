@@ -7,13 +7,12 @@ import ru.hrs.lassd.club.ws.schema.QuickCheckInResponse;
 @Component
 public class QuickCheckInAction extends BaseAction{
 
-    public QuickCheckInResponse checkInByMagstripe() {
+    public QuickCheckInResponse checkIn(String number) {
 
         QuickCheckInRequest request = new QuickCheckInRequest();
+            request.setNumber(number);
 
-
-//        soapHelper.go(lookup, response);
-        return null;
+        return (QuickCheckInResponse) soapHelper.go(request);
     }
 
 

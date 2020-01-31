@@ -91,7 +91,7 @@ public class ProfileLookupTest extends BaseTest {
 
     @Test
     public void lookupByLastFirstNameWithRange() {
-        ProfileLookupResponse response = profileLookupAction.lookupProfile(data.profileLookupLastName, data.profileLookupFirstName, 0, 2);
+        ProfileLookupResponse response = profileLookupAction.lookupProfile(data.profileLookupLastName, data.profileLookupFirstName, 0, 1);
         assertThat(
                 profileLookupAction.isProfilesCountEqualTo(response, 1),
                 CoreMatchers.equalTo(true)
