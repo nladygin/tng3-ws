@@ -23,7 +23,7 @@ public class ProfileLookupTest extends BaseTest {
     public void lookupByLastFirstName() {
         ProfileLookupResponse response = profileLookupAction.lookupProfile(data.profileLookupLastName, data.profileLookupFirstName);
         assertThat(
-                profileLookupAction.isProfilesCountEqualTo(response, 3),
+                profileLookupAction.isProfilesCountEqualTo(response, 4),
                 CoreMatchers.equalTo(true)
         );
     }
