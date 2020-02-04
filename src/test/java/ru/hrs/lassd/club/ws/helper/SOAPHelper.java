@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.soap.client.SoapFaultClientException;
 import org.springframework.xml.transform.StringResult;
 import org.springframework.xml.transform.StringSource;
 import ru.hrs.lassd.club.ws.config.AppConfig;
+import ru.hrs.lassd.club.ws.entity.Fault;
 
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
@@ -36,11 +38,28 @@ public class SOAPHelper {
                 StringWriter stringWriter = new StringWriter();
                 StreamResult result = new StreamResult(stringWriter);
 
-                    ws.sendSourceAndReceiveToResult(source, result);
+                    try {
 
-                        LogManager.getLogger().info("RESPONSE:\n" + prettyPrint(stringWriter.toString()));
+                        ws.sendSourceAndReceiveToResult(source, result);
+                            LogManager.getLogger().info("RESPONSE:\n" + prettyPrint(stringWriter.toString()));
+                        return marshaller.unmarshal(new StringSource(stringWriter.toString()));
 
-                return marshaller.unmarshal(new StringSource(stringWriter.toString()));
+                    } catch (SoapFaultClientException e) {
+                        try {
+
+                            Source faultSource = e.getSoapFault().getSource();
+                                TransformerFactory.newInstance().newTransformer().transform(faultSource, result);
+                                    LogManager.getLogger().info("RESPONSE:\n" + prettyPrint(stringWriter.toString()));
+                            return new Fault(e.getFaultStringOrReason());
+
+                        } catch (TransformerException ex) {
+                            LogManager.getLogger().error("Cannot to transform response");
+                            ex.printStackTrace();
+                            return null;
+                        }
+                    }
+
+
             /* - CURLS FOR LOGS */
 
 //            return ws.marshalSendAndReceive(request); //EASIEST WAY BUT NO LOGS

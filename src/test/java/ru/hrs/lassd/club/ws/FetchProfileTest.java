@@ -7,9 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.hrs.lassd.club.ws.action.FetchProfileAction;
+import ru.hrs.lassd.club.ws.entity.Fault;
 import ru.hrs.lassd.club.ws.schema.FetchProfileResponse;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,24 +22,18 @@ public class FetchProfileTest extends BaseTest {
                 data.siteId,
                 data.outletID
         );
-        assertThat(
-                fetchProfileAction.isProfileExist(response),
-                CoreMatchers.equalTo(true)
-        );
+        fetchProfileAction.checkForProfileExist(response);
     }
 
 
     @Test
     public void fetchProfileByWrongMagstripe() {
-        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+        Fault response = fetchProfileAction.fetchProfileFault(
                 "666",
                 data.siteId,
                 data.outletID
         );
-        assertThat(
-                fetchProfileAction.isProfileExist(response),
-                CoreMatchers.equalTo(false)
-        );
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
     }
 
 

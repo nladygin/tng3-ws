@@ -1,10 +1,13 @@
 package ru.hrs.lassd.club.ws.action;
 
+import org.hamcrest.CoreMatchers;
 import org.springframework.stereotype.Component;
 import ru.hrs.lassd.club.ws.schema.*;
 
 import java.math.BigInteger;
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @Component
 public class ProfileLookupAction extends BaseAction {
@@ -85,8 +88,11 @@ public class ProfileLookupAction extends BaseAction {
     }
 
 
-    public boolean isProfilesCountEqualTo(ProfileLookupResponse response, int count) {
-        return response.getBriefProfileList().getBriefProfile().size() == count;
+    public void checkProfilesCountIsEqualTo(ProfileLookupResponse response, int count) {
+        assertThat(
+                response.getBriefProfileList().getBriefProfile().size(),
+                CoreMatchers.equalTo(count)
+        );
     }
 
 }
