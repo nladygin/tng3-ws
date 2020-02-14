@@ -17,6 +17,7 @@ public class Data {
     @Value("${profile_card}")               public int profileCard;
     @Value("${profile_magstripe}")          public String profileMagstripe;
     @Value("${profile_extra_magstripe}")    public String profileExtraMagstripe;
+    @Value("${profile_ticket}")             public String profileTicket;
 
 
 /*
