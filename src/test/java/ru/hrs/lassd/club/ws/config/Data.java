@@ -11,11 +11,12 @@ public class Data {
     @Value("${site_id}")                    public int siteId;
     @Value("${outlet_id}")                  public int outletID;
 
-    @Value("${profile_lookup_last_name}")   public String profileLookupLastName;
-    @Value("${profile_lookup_first_name}")  public String profileLookupFirstName;
-    @Value("${profile_lookup_room}")        public int profileLookupRoom;
-    @Value("${profile_lookup_card}")        public int profileLookupCard;
-    @Value("${fetch_profile_magstripe}")    public String fetchProfileMagstripe;
+    @Value("${profile_last_name}")          public String profileLastName;
+    @Value("${profile_first_name}")         public String profileFirstName;
+    @Value("${profile_room}")               public int profileRoom;
+    @Value("${profile_card}")               public int profileCard;
+    @Value("${profile_magstripe}")          public String profileMagstripe;
+    @Value("${profile_extra_magstripe}")    public String profileExtraMagstripe;
 
 
 /*

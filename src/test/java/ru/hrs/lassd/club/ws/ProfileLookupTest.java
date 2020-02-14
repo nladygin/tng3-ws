@@ -14,7 +14,7 @@ public class ProfileLookupTest extends BaseTest {
 
     @Test
     public void lookupByLastFirstName() {
-        ProfileLookupResponse response = profileLookupAction.lookupProfile(data.profileLookupLastName, data.profileLookupFirstName);
+        ProfileLookupResponse response = profileLookupAction.lookupProfile(data.profileLastName, data.profileFirstName);
         profileLookupAction.checkProfilesCountIsEqualTo(response, 4);
     }
 
@@ -35,7 +35,7 @@ public class ProfileLookupTest extends BaseTest {
 
     @Test
     public void lookupByRoomNumber() {
-        ProfileLookupResponse response = profileLookupAction.lookupProfile("r" + data.profileLookupRoom);
+        ProfileLookupResponse response = profileLookupAction.lookupProfile("r" + data.profileRoom);
         profileLookupAction.checkProfilesCountIsEqualTo(response, 1);
     }
 
@@ -49,7 +49,7 @@ public class ProfileLookupTest extends BaseTest {
 
     @Test
     public void lookupByCardId() {
-        ProfileLookupResponse response = profileLookupAction.lookupProfile(String.valueOf(data.profileLookupCard));
+        ProfileLookupResponse response = profileLookupAction.lookupProfile(String.valueOf(data.profileCard));
         profileLookupAction.checkProfilesCountIsEqualTo(response, 1);
     }
 
@@ -63,7 +63,7 @@ public class ProfileLookupTest extends BaseTest {
 
     @Test
     public void lookupByLastFirstNameWithRange() {
-        ProfileLookupResponse response = profileLookupAction.lookupProfile(data.profileLookupLastName, data.profileLookupFirstName, 0, 1);
+        ProfileLookupResponse response = profileLookupAction.lookupProfile(data.profileLastName, data.profileFirstName, 0, 1);
         profileLookupAction.checkProfilesCountIsEqualTo(response, 1);
     }
 
