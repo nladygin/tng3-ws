@@ -6,6 +6,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import ru.hrs.lassd.club.ws.config.Config;
 import ru.hrs.lassd.club.ws.config.Data;
+import ru.hrs.lassd.club.ws.helper.Utils;
 
 
 @ContextConfiguration(classes = Config.class)
@@ -23,6 +24,6 @@ public class BaseTest {
 //    @Autowired private RequestHelper requestHelper;
     @Autowired private Config config;
     @Autowired protected Data data;
-//    @Autowired protected Utils utils;
+    @Autowired protected Utils utils;
 
 }

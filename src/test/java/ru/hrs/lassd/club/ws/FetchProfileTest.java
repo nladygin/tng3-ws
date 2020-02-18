@@ -15,8 +15,9 @@ import ru.hrs.lassd.club.ws.schema.FetchProfileResponse;
 public class FetchProfileTest extends BaseTest {
 
 
+
     @Test
-    public void fetchProfileByMagstripe() {
+    public void fetchProfileWithoutPrefix() {
         FetchProfileResponse response = fetchProfileAction.fetchProfile(
                 data.profileMagstripe,
                 data.siteId,
@@ -27,9 +28,32 @@ public class FetchProfileTest extends BaseTest {
 
 
     @Test
+    public void createProfileByMagstripe() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                utils.generateDate("YYYYMMddHHmm",0),
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+
+    @Test
+    public void fetchProfileByMagstripe() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "MSW:" + data.profileMagstripe,
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+    @Test
     public void fetchProfileByWrongMagstripe() {
         Fault response = fetchProfileAction.fetchProfileFault(
-                "666",
+                "MSW:" + "666",
                 data.siteId,
                 data.outletID
         );
@@ -40,12 +64,35 @@ public class FetchProfileTest extends BaseTest {
     @Test
     public void fetchProfileByExtraMagstripe() {
         FetchProfileResponse response = fetchProfileAction.fetchProfile(
-                data.profileExtraMagstripe,
+                "MSW:" + data.profileExtraMagstripe,
                 data.siteId,
                 data.outletID
         );
         fetchProfileAction.checkForProfileExist(response);
     }
+
+
+    @Test
+    public void fetchProfileByMobile() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "MSM:" + data.profileMobile,
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+    @Test
+    public void fetchProfileByWrongMobile() {
+        Fault response = fetchProfileAction.fetchProfileFault(
+                "MSM:" + "666",
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
+    }
+
 
 
     @Test
@@ -69,11 +116,33 @@ public class FetchProfileTest extends BaseTest {
         fetchProfileAction.checkForProfileExist(response);
     }
 
-
+/*
     @Test
     public void fetchProfileByTicket() {
         FetchProfileResponse response = fetchProfileAction.fetchProfile(
                 ":" + data.profileTicket,
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+*/
+
+    @Test
+    public void fetchProfileByKeyCode() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "KDT:" + data.profileKeyCode,
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+    @Test
+    public void fetchProfileByWrongKeyCode() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "KDT:" + "666",
                 data.siteId,
                 data.outletID
         );
