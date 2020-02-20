@@ -20,6 +20,8 @@ public class Data {
     @Value("${profile_mobile}")             public String profileMobile;
     @Value("${profile_key_code}")           public String profileKeyCode;
     @Value("${profile_key_number}")         public String profileKeyNumber;
+    @Value("${profile_booking_id}")         public String profileBookingId;
+    @Value("${profile_foreign_id}")         public String profileForeignId;
     @Value("${profile_ticket}")             public String profileTicket;
 
 

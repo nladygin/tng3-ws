@@ -28,15 +28,36 @@ public class FetchProfileTest extends BaseTest {
 
 
     @Test
-    public void createProfileByMagstripe() {
+    public void createProfileByMagstripeSwipe() {
         FetchProfileResponse response = fetchProfileAction.fetchProfile(
-                utils.generateDate("YYYYMMddHHmm",0),
+                "MSW:" + utils.generateDate("YYYYMMddHHmm",0),
                 data.siteId,
                 data.outletID
         );
         fetchProfileAction.checkForProfileExist(response);
     }
 
+
+    @Test
+    public void createProfileByMagstripeManual() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "MSM:" + utils.generateDate("YYYYMMddHHmm",0),
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+    @Test
+    public void createProfileByForeignId() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "FID:" + utils.generateDate("YYYYMMddHHmm",0),
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
 
 
     @Test
@@ -108,12 +129,12 @@ public class FetchProfileTest extends BaseTest {
 
     @Test
     public void fetchProfileByWrongCardId() {
-        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+        Fault response = fetchProfileAction.fetchProfileFault(
                 "CID:666",
                 data.siteId,
                 data.outletID
         );
-        fetchProfileAction.checkForProfileExist(response);
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
     }
 
 /*
@@ -129,7 +150,7 @@ public class FetchProfileTest extends BaseTest {
 */
 
     @Test
-    public void fetchProfileByKeyCode() {
+    public void fetchProfileByKeyCodeTerminal() {
         FetchProfileResponse response = fetchProfileAction.fetchProfile(
                 "KDT:" + data.profileKeyCode,
                 data.siteId,
@@ -140,13 +161,112 @@ public class FetchProfileTest extends BaseTest {
 
 
     @Test
-    public void fetchProfileByWrongKeyCode() {
-        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+    public void fetchProfileByWrongKeyCodeTerminal() {
+        Fault response = fetchProfileAction.fetchProfileFault(
                 "KDT:" + "666",
                 data.siteId,
                 data.outletID
         );
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
+    }
+
+
+    @Test
+    public void fetchProfileByKeyCodeManual() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "KDM:" + data.profileKeyCode,
+                data.siteId,
+                data.outletID
+        );
         fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+    @Test
+    public void fetchProfileByWrongKeyCodeManual() {
+        Fault response = fetchProfileAction.fetchProfileFault(
+                "KDM:" + "666",
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
+    }
+
+
+    @Test
+    public void fetchProfileByKeyNumber() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "KID:" + data.profileKeyNumber,
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+    @Test
+    public void fetchProfileByWrongKeyNumber() {
+        Fault response = fetchProfileAction.fetchProfileFault(
+                "KID:" + "666",
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
+    }
+
+
+    @Test
+    public void fetchProfileByBookingId() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "RES:" + data.profileBookingId,
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+    @Test
+    public void fetchProfileByWrongKeyBookingId() {
+        Fault response = fetchProfileAction.fetchProfileFault(
+                "RES:" + "1002|666",
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
+    }
+
+
+    @Test
+    public void fetchProfileByForeignId() {
+        FetchProfileResponse response = fetchProfileAction.fetchProfile(
+                "FID:" + data.profileForeignId,
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkForProfileExist(response);
+    }
+
+
+    @Test
+    public void fetchProfileByWrongForeignId() {
+        Fault response = fetchProfileAction.fetchProfileFault(
+                "FID:" + "1002|V8|666",
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
+    }
+
+
+    @Test
+    public void fetchProfileByBadTag() {
+        Fault response = fetchProfileAction.fetchProfileFault(
+                "OMG:" + "666",
+                data.siteId,
+                data.outletID
+        );
+        fetchProfileAction.checkFaultMessageIsEqualTo(response, "No support for lookup tag (OMG:666)");
     }
 
 
