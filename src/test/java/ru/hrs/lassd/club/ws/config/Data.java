@@ -24,6 +24,17 @@ public class Data {
     @Value("${profile_foreign_id}")         public String profileForeignId;
     @Value("${profile_ticket}")             public String profileTicket;
 
+    @Value("${employee_id}")                public int employeeId;
+    @Value("${employee_name}")              public String employeeName;
+
+    @Value("${mi_id}")                      public String miId;
+    @Value("${mi_name}")                    public String miName;
+    @Value("${mi_price}")                   public Double miPrice;
+    @Value("${mi_si}")                      public int miSI;
+    @Value("${mi_fgrp}")                    public int miFGrp;
+
+
+
 
 /*
     @Value("${count}")                          public int count;
