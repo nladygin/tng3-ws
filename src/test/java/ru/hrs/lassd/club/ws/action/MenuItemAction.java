@@ -33,6 +33,25 @@ public class MenuItemAction {
     }
 
 
+    public MenuItem generateMenuItem(Double discount) {
+        String salt = String.valueOf(utils.generateDigits(8));
+        return createMenuItem(
+                salt,
+                "menu item " + salt,
+                1,
+                data.miPrice,
+                data.miPrice,
+                discount,
+                data.miSI,
+                data.miFGrp,
+                0.0,
+                null,
+                null,
+                null
+        );
+    }
+
+
 
 
     public MenuItem createMenuItem(

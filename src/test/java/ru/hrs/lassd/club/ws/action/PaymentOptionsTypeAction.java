@@ -10,7 +10,15 @@ public class PaymentOptionsTypeAction {
 
 
     public PaymentOptionsType generate(){
-        return new PaymentOptionsType();
+        return generate(
+                false,
+                false,
+                false,
+                true,
+                true,
+                false,
+                true
+        );
     }
 
 

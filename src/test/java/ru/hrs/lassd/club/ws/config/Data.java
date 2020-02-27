@@ -10,6 +10,8 @@ public class Data {
 
     @Value("${site_id}")                    public int siteId;
     @Value("${outlet_id}")                  public int outletID;
+    @Value("${rvc_number}")                 public int rvcNumber;
+    @Value("${ws_id}")                      public int wsId;
 
     @Value("${profile_last_name}")          public String profileLastName;
     @Value("${profile_first_name}")         public String profileFirstName;

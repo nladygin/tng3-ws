@@ -15,14 +15,18 @@ public class MenuItemListAction {
 
 
     public MenuItemList generate(){
-        return generate(1);
+        return generate(1, 0.0);
+    }
+
+    public MenuItemList generate(Double discount) {
+        return generate(1, discount);
     }
 
 
-    public MenuItemList generate(int itemNumber) {
+    public MenuItemList generate(int itemNumber, Double discount) {
         MenuItemList miList = new MenuItemList();
             for (int i = 0; i < itemNumber; i++) {
-                miList.getMenuItem().add(menuItemAction.generateMenuItem());
+                miList.getMenuItem().add(menuItemAction.generateMenuItem(discount));
             }
         return miList;
     }

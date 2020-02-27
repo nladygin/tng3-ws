@@ -1,9 +1,12 @@
 package ru.hrs.lassd.club.ws.action;
 
+import org.hamcrest.CoreMatchers;
 import org.springframework.stereotype.Component;
 import ru.hrs.lassd.club.ws.schema.*;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 @Component
@@ -11,6 +14,7 @@ public class AcquireLoyaltyAction extends BaseAction {
 
 
     public AcquireLoyaltyResponse acquireLoyalty(
+            String number,
             String postingGUID,
             int postPropertyId,
             UniqueID registerId,
@@ -27,7 +31,7 @@ public class AcquireLoyaltyAction extends BaseAction {
     ) {
 
         return acquireLoyalty(
-                null,
+                number,
                 null,
                 postingGUID,
                 null,
@@ -52,7 +56,6 @@ public class AcquireLoyaltyAction extends BaseAction {
                 null
                 );
     }
-
 
 
 
@@ -110,6 +113,26 @@ public class AcquireLoyaltyAction extends BaseAction {
 
         return (AcquireLoyaltyResponse) soapHelper.go(request);
     }
+
+
+
+
+    public void checkResultStatus(AcquireLoyaltyResponse response, ResultStatusFlag expectedResultStatusFlag) {
+        assertThat(
+                response.getStatus(),
+                CoreMatchers.equalTo(expectedResultStatusFlag)
+        );
+    }
+
+
+    public void checkResultInfo(AcquireLoyaltyResponse response, String expectedPaymentInfo) {
+        assertThat(
+                response.getPaymentInfo(),
+                CoreMatchers.equalTo(expectedPaymentInfo)
+        );
+    }
+
+
 
 
 }
