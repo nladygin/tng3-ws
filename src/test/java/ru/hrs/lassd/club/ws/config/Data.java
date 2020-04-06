@@ -32,6 +32,7 @@ public class Data {
     @Value("${mi_id}")                      public String miId;
     @Value("${mi_name}")                    public String miName;
     @Value("${mi_price}")                   public Double miPrice;
+    @Value("${mi_discount}")                public Double miDiscount;
     @Value("${mi_si}")                      public int miSI;
     @Value("${mi_fgrp}")                    public int miFGrp;
 

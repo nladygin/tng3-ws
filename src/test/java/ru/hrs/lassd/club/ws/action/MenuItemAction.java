@@ -13,7 +13,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class MenuItemAction {
 
 
-
+/*
     public MenuItem generateMenuItem() {
         String salt = String.valueOf(utils.generateDigits(8));
         return createMenuItem(
@@ -31,10 +31,10 @@ public class MenuItemAction {
                 null
         );
     }
-
+*/
 
     public MenuItem generateMenuItem(Double discount) {
-        String salt = String.valueOf(utils.generateDigits(8));
+        String salt = String.valueOf(utils.generateDate("YYYYMMDD", 0));
         return createMenuItem(
                 salt,
                 "menu item " + salt,
