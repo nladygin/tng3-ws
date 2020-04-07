@@ -33,14 +33,14 @@ public class MenuItemAction {
     }
 */
 
-    public MenuItem generateMenuItem(Double discount) {
-        String salt = String.valueOf(utils.generateDate("YYYYMMDD", 0));
+    public MenuItem generateMenuItem(Double price, Double discount) {
+        String salt = String.valueOf(utils.generateDigits(8));
         return createMenuItem(
                 salt,
                 "menu item " + salt,
                 1,
-                data.miPrice,
-                data.miPrice,
+                price,
+                price,
                 discount,
                 data.miSI,
                 data.miFGrp,

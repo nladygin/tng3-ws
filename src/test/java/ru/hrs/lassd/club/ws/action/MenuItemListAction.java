@@ -14,19 +14,19 @@ public class MenuItemListAction {
 
 
 
-    public MenuItemList generate(){
-        return generate(1, 0.0);
+    public MenuItemList generate(Double price){
+        return generate(1, price, 0.0);
     }
 
-    public MenuItemList generate(Double discount) {
-        return generate(1, discount);
+    public MenuItemList generate(Double price, Double discount) {
+        return generate(1,  price, discount);
     }
 
 
-    public MenuItemList generate(int itemNumber, Double discount) {
+    public MenuItemList generate(int itemNumber, Double price, Double discount) {
         MenuItemList miList = new MenuItemList();
             for (int i = 0; i < itemNumber; i++) {
-                miList.getMenuItem().add(menuItemAction.generateMenuItem(discount));
+                miList.getMenuItem().add(menuItemAction.generateMenuItem(price, discount));
             }
         return miList;
     }

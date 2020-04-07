@@ -30,7 +30,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "",
                 1,
                 0.0,
-                menuItemListAction.generate(),
+                menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
@@ -52,7 +52,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "",
                 1,
                 3.0,
-                menuItemListAction.generate(),
+                menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
@@ -96,7 +96,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "",
                 1,
                 0.0,
-                menuItemListAction.generate(),
+                menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.FAIL);
@@ -119,7 +119,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "",
                 1,
                 0.0,
-                menuItemListAction.generate(),
+                menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.FAIL);
@@ -142,7 +142,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "",
                 1,
                 0.0,
-                menuItemListAction.generate(),
+                menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.FAIL);
@@ -165,7 +165,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "",
                 1,
                 0.0,
-                menuItemListAction.generate(),
+                menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.FAIL);
