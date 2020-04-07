@@ -11,8 +11,6 @@ import ru.hrs.lassd.club.ws.action.UniqueIDAction;
 import ru.hrs.lassd.club.ws.schema.PostPaymentResponse;
 import ru.hrs.lassd.club.ws.schema.ResultStatusFlag;
 
-import java.math.BigInteger;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PostPaymentTest extends BaseTest {
@@ -23,45 +21,19 @@ public class PostPaymentTest extends BaseTest {
     public void createCheck(){
         PostPaymentResponse response = postPaymentAction.postPayment(
                 "CID:" + data.profileCard,
-                String.valueOf(data.siteId),
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
-                BigInteger.valueOf(data.rvcNumber),
-                "10.0",
-                "0.0",
-                String.valueOf(utils.generateDigits(4)),
-                String.valueOf(data.employeeId),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                5.0,
+                utils.generateDigits(4),
+                data.employeeId,
                 data.employeeName,
-                "",
-                "1",
-                "0.0",
-                menuItemListAction.generate(),
-                postPaymentAction.generatePaymentRestrictions(),
-                false
+                menuItemListAction.generate(data.miPrice),
+                postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-    }
-
-
-    @Test
-    public void createCheckWithConfirmation(){
-        PostPaymentResponse response = postPaymentAction.postPayment(
-                "CID:" + data.profileCard,
-                String.valueOf(data.siteId),
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
-                BigInteger.valueOf(data.rvcNumber),
-                "10.0",
-                "0.0",
-                String.valueOf(utils.generateDigits(4)),
-                String.valueOf(data.employeeId),
-                data.employeeName,
-                "",
-                "1",
-                "0.0",
-                menuItemListAction.generate(),
-                postPaymentAction.generatePaymentRestrictions(),
-                true
-        );
-        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 5.0);
     }
 
 
@@ -69,46 +41,167 @@ public class PostPaymentTest extends BaseTest {
     public void createCheckWithItemDiscount(){
         PostPaymentResponse response = postPaymentAction.postPayment(
                 "CID:" + data.profileCard,
-                String.valueOf(data.siteId),
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
-                BigInteger.valueOf(data.rvcNumber),
-                "10.0",
-                "0.0",
-                String.valueOf(utils.generateDigits(4)),
-                String.valueOf(data.employeeId),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                1.0,
+                1.0,
+                utils.generateDigits(4),
+                data.employeeId,
                 data.employeeName,
-                "",
-                "1",
-                "0.0",
-                menuItemListAction.generate(1, 4.0),
-                postPaymentAction.generatePaymentRestrictions(),
-                false
+                menuItemListAction.generate(data.miPrice, 4.0),
+                postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 1.0);
     }
 
 
     @Test
-    public void createCheckWithItemDiscountWithConfirmation(){
+    public void createCheckWithPartialPayment(){
         PostPaymentResponse response = postPaymentAction.postPayment(
                 "CID:" + data.profileCard,
-                String.valueOf(data.siteId),
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
-                BigInteger.valueOf(data.rvcNumber),
-                "10.0",
-                "0.0",
-                String.valueOf(utils.generateDigits(4)),
-                String.valueOf(data.employeeId),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                1.0,
+                5.0,
+                utils.generateDigits(4),
+                data.employeeId,
                 data.employeeName,
-                "",
-                "1",
-                "0.0",
-                menuItemListAction.generate(1, 4.0),
-                postPaymentAction.generatePaymentRestrictions(),
-                true
+                menuItemListAction.generate(data.miPrice),
+                postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 1.0);
     }
+
+
+    @Test
+    public void createCheckWithPaymentLimit(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "MSW:" + data.profileExtraMagstripe,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                5.0,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                postPaymentAction.generatePaymentRestrictions()
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 2.5);
+    }
+
+
+    @Test
+    public void createCheckWithPaymentLimitWithDiscount(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "MSW:" + data.profileExtraMagstripe,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                1.0,
+                1.0,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice, 4.0),
+                postPaymentAction.generatePaymentRestrictions()
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 0.5);
+    }
+
+
+    @Test
+    public void attachCheckByCard(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                5.0,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                "ATTACH:" + data.siteId + ":" + data.rvcNumber,
+                menuItemListAction.generate(data.miPrice),
+                postPaymentAction.generatePaymentRestrictions()
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+    }
+
+
+    @Test
+    public void attachCheckByMagstripe(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "MSW:" + data.profileMagstripe,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                5.0,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                "ATTACH:" + data.siteId + ":" + data.rvcNumber,
+                menuItemListAction.generate(data.miPrice),
+                postPaymentAction.generatePaymentRestrictions()
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+    }
+
+
+    @Test
+    public void attachCheckByTicket(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "MSW:" + data.profileTicket,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                5.0,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                "ATTACH:" + data.siteId + ":" + data.rvcNumber,
+                menuItemListAction.generate(data.miPrice),
+                postPaymentAction.generatePaymentRestrictions()
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+    }
+
+/*
+    @Test
+    public void createCheckWithVoucherPayment(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                0.0,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice, 4.0),
+                postPaymentAction.generatePaymentRestrictions(true, true, true)
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 1.0);
+    }
+*/
+
+
+
 
 
 

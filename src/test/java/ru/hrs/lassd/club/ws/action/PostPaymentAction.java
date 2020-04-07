@@ -16,47 +16,84 @@ public class PostPaymentAction extends BaseAction {
 
     public PostPaymentResponse postPayment(
         String number,
-        String postPropertyId,
+        int postPropertyId,
         UniqueID registerId,
         BigInteger revenueCenterId,
-        String paymentAmount,
-        String chkTtl,
-        String checkNumber,
-        String cashierEmpId,
+        Double paymentAmount,
+        Double chkTtl,
+        long checkNumber,
+        int cashierEmpId,
         String cashierEmpName,
-        String cashierOptMask,
-        String checkGuestCount,
-        String serviceChargeAmount,
         MenuItemList menuItemList,
-        PostPaymentRequest.PaymentRestrictions paymentRestrictions,
-        Boolean confirm
+        PostPaymentRequest.PaymentRestrictions paymentRestrictions
     ){
         return postPayment(
                 number,
                 null,
                 null,
                 null,
-                postPropertyId,
+                String.valueOf(postPropertyId),
                 registerId,
                 revenueCenterId,
                 null,
-                paymentAmount,
+                String.valueOf(paymentAmount),
                 null,
-                chkTtl,
+                String.valueOf(chkTtl),
                 null,
-                checkNumber,
-                cashierEmpId,
+                String.valueOf(checkNumber),
+                String.valueOf(cashierEmpId),
                 cashierEmpName,
-                cashierOptMask,
-                checkGuestCount,
-                serviceChargeAmount,
+                "",
+                "1",
+                "0.0",
                 menuItemList,
                 null,
                 paymentRestrictions,
-                confirm
+                false
         );
     }
 
+
+
+    public PostPaymentResponse postPayment(
+            String number,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            Double paymentAmount,
+            Double chkTtl,
+            long checkNumber,
+            int cashierEmpId,
+            String cashierEmpName,
+            String cashierOptMask,
+            MenuItemList menuItemList,
+            PostPaymentRequest.PaymentRestrictions paymentRestrictions
+    ){
+        return postPayment(
+                number,
+                null,
+                null,
+                null,
+                String.valueOf(postPropertyId),
+                registerId,
+                revenueCenterId,
+                null,
+                String.valueOf(paymentAmount),
+                null,
+                String.valueOf(chkTtl),
+                null,
+                String.valueOf(checkNumber),
+                String.valueOf(cashierEmpId),
+                cashierEmpName,
+                cashierOptMask,
+                "1",
+                "0.0",
+                menuItemList,
+                null,
+                paymentRestrictions,
+                false
+        );
+    }
 
 
 
@@ -140,6 +177,15 @@ public class PostPaymentAction extends BaseAction {
                 CoreMatchers.equalTo(expectedResultStatusFlag)
         );
     }
+
+
+    public void checkResultPaymentAmount(PostPaymentResponse response, Double paymentAmount) {
+        assertThat(
+                Double.valueOf(response.getPaymentAmount()),
+                CoreMatchers.equalTo(paymentAmount)
+        );
+    }
+
 
 
     public void checkResultInfo(PostPaymentResponse response, String expectedPaymentInfo) {

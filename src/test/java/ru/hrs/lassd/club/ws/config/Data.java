@@ -4,13 +4,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
+
 @Component
 @PropertySource({"data.properties"})
 public class Data {
 
     @Value("${site_id}")                    public int siteId;
     @Value("${outlet_id}")                  public int outletID;
-    @Value("${rvc_number}")                 public int rvcNumber;
+    @Value("${rvc_number}")                 public BigInteger rvcNumber;
     @Value("${ws_id}")                      public int wsId;
 
     @Value("${profile_last_name}")          public String profileLastName;

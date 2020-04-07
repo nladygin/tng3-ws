@@ -11,6 +11,28 @@ public class UniqueIDAction {
 
 
     public UniqueID generate(
+            int value
+    ){
+        return generate(String.valueOf(value), "");
+    }
+
+
+    public UniqueID generate(
+            int value,
+            String source
+    ){
+        return generate(String.valueOf(value), source);
+    }
+
+
+    public UniqueID generate(
+            String value
+    ){
+        return generate(value, "");
+    }
+
+
+    public UniqueID generate(
             String value,
             String source
     ){
