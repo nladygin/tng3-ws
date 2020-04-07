@@ -9,6 +9,8 @@ import ru.hrs.lassd.club.ws.action.*;
 import ru.hrs.lassd.club.ws.schema.AcquireLoyaltyResponse;
 import ru.hrs.lassd.club.ws.schema.ResultStatusFlag;
 
+import java.math.BigInteger;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AcquireLoyaltyTest extends BaseTest {
@@ -19,7 +21,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
                 data.siteId,
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
+                uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
                 10.0,
                 String.valueOf(utils.generateDigits(4)),
@@ -41,7 +43,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
                 data.siteId,
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
+                uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
                 10.0,
                 String.valueOf(utils.generateDigits(4)),
@@ -63,7 +65,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
                 data.siteId,
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
+                uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
                 10.0,
                 String.valueOf(utils.generateDigits(4)),
@@ -85,7 +87,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "CID:666",
                 String.valueOf(utils.generateDigits(10)),
                 data.siteId,
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
+                uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
                 10.0,
                 String.valueOf(utils.generateDigits(4)),
@@ -108,7 +110,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
                 666,
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
+                uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
                 10.0,
                 String.valueOf(utils.generateDigits(4)),
@@ -131,8 +133,8 @@ public class AcquireLoyaltyTest extends BaseTest {
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
                 data.siteId,
-                uniqueIDAction.generate(String.valueOf(data.wsId), ""),
-                666,
+                uniqueIDAction.generate(data.wsId),
+                BigInteger.valueOf(666),
                 10.0,
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,

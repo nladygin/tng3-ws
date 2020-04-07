@@ -6,6 +6,8 @@ import ru.hrs.lassd.club.ws.schema.*;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import java.math.BigInteger;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
@@ -18,7 +20,7 @@ public class AcquireLoyaltyAction extends BaseAction {
             String postingGUID,
             int postPropertyId,
             UniqueID registerId,
-            int revenueCenterId,
+            BigInteger revenueCenterId,
             double paymentAmount,
             String checkNumber,
             int cashierEmpId,
@@ -66,7 +68,7 @@ public class AcquireLoyaltyAction extends BaseAction {
             Boolean voidFlag,
             int postPropertyId,
             UniqueID registerId,
-            int revenueCenterId,
+            BigInteger revenueCenterId,
             Long mealPeriod,
             double paymentAmount,
             String checkNumber,
