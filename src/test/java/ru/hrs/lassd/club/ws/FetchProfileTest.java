@@ -137,17 +137,17 @@ public class FetchProfileTest extends BaseTest {
         fetchProfileAction.checkFaultMessageIsEqualTo(response, "Card not found");
     }
 
-/*
+
     @Test
     public void fetchProfileByTicket() {
         FetchProfileResponse response = fetchProfileAction.fetchProfile(
-                ":" + data.profileTicket,
+                "MSW:" + data.profileTicket,
                 data.siteId,
                 data.outletID
         );
         fetchProfileAction.checkForProfileExist(response);
     }
-*/
+
 
     @Test
     public void fetchProfileByKeyCodeTerminal() {
