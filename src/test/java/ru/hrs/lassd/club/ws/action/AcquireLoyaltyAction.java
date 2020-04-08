@@ -15,6 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class AcquireLoyaltyAction extends BaseAction {
 
 
+    /* Simple */
     public AcquireLoyaltyResponse acquireLoyalty(
             String number,
             String postingGUID,
@@ -56,7 +57,7 @@ public class AcquireLoyaltyAction extends BaseAction {
         );
     }
 
-
+    /* + Service charge */
     public AcquireLoyaltyResponse acquireLoyalty(
             String number,
             String postingGUID,
@@ -99,20 +100,20 @@ public class AcquireLoyaltyAction extends BaseAction {
         );
     }
 
-/*
+
+
+    /* + Serving period */
     public AcquireLoyaltyResponse acquireLoyalty(
             String number,
             String postingGUID,
             int postPropertyId,
             UniqueID registerId,
+            Long mealPeriod,
             BigInteger revenueCenterId,
             double paymentAmount,
             String checkNumber,
             int cashierEmpId,
             String cashierEmpName,
-            String cashierOptMask,
-            int checkGuestCount,
-            double serviceChargeAmount,
             MenuItemList menuItemList,
             PaymentOptionsType loyaltyOptions
     ) {
@@ -125,14 +126,14 @@ public class AcquireLoyaltyAction extends BaseAction {
                 postPropertyId,
                 registerId,
                 revenueCenterId,
-                null,
+                mealPeriod,
                 paymentAmount,
                 checkNumber,
                 cashierEmpId,
                 cashierEmpName,
-                cashierOptMask,
-                checkGuestCount,
-                serviceChargeAmount,
+                "",
+                1,
+                0.0,
                 null,
                 menuItemList,
                 loyaltyOptions,
@@ -141,11 +142,12 @@ public class AcquireLoyaltyAction extends BaseAction {
                 null,
                 null,
                 null
-                );
+        );
     }
-*/
 
 
+
+    /* Full */
     public AcquireLoyaltyResponse acquireLoyalty(
             String number,
             UniqueID clientId,

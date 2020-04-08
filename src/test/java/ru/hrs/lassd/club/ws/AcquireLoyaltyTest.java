@@ -79,6 +79,27 @@ public class AcquireLoyaltyTest extends BaseTest {
 
 
     @Test
+    public void createCheckWithMealPeriod() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                1L,
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generate()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-2);
+    }
+
+
+    @Test
     public void createCheckWithWrongCard() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
                 "CID:666",
