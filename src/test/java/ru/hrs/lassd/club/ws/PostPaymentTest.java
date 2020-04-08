@@ -15,6 +15,7 @@ import ru.hrs.lassd.club.ws.schema.ResultStatusFlag;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PostPaymentTest extends BaseTest {
 
+    double discount = 4.0;
 
 
     @Test
@@ -24,8 +25,8 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                5.0,
-                5.0,
+                data.miPrice,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -33,7 +34,7 @@ public class PostPaymentTest extends BaseTest {
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice);
     }
 
 
@@ -44,16 +45,16 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                1.0,
-                1.0,
+                data.miPrice - discount,
+                data.miPrice - discount,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
-                menuItemListAction.generate(data.miPrice, 4.0),
+                menuItemListAction.generate(data.miPrice, discount),
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 1.0);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice - discount);
     }
 
 
@@ -65,7 +66,7 @@ public class PostPaymentTest extends BaseTest {
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
                 1.0,
-                5.0,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -84,8 +85,8 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                5.0,
-                5.0,
+                data.miPrice,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -93,7 +94,7 @@ public class PostPaymentTest extends BaseTest {
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 2.5);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice/2);
     }
 
 
@@ -104,16 +105,16 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                1.0,
-                1.0,
+                data.miPrice - discount,
+                data.miPrice - discount,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
-                menuItemListAction.generate(data.miPrice, 4.0),
+                menuItemListAction.generate(data.miPrice, discount),
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 0.5);
+        postPaymentAction.checkResultPaymentAmount(response, (data.miPrice - discount)/2);
     }
 
 
@@ -124,8 +125,8 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                5.0,
-                5.0,
+                data.miPrice,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -134,7 +135,7 @@ public class PostPaymentTest extends BaseTest {
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice);
     }
 
 
@@ -145,8 +146,8 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                5.0,
-                5.0,
+                data.miPrice,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -155,7 +156,7 @@ public class PostPaymentTest extends BaseTest {
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice);
     }
 
 
@@ -166,8 +167,8 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                5.0,
-                5.0,
+                data.miPrice,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -176,7 +177,7 @@ public class PostPaymentTest extends BaseTest {
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice);
     }
 
 
@@ -187,8 +188,8 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                5.0,
-                5.0,
+                data.miPrice,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -196,7 +197,7 @@ public class PostPaymentTest extends BaseTest {
                 postPaymentAction.generatePaymentRestrictions(false, true, false)
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice);
     }
 
 
@@ -207,8 +208,8 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                5.0,
-                5.0,
+                data.miPrice,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -227,8 +228,8 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                5.0,
-                5.0,
+                data.miPrice,
+                data.miPrice,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
@@ -237,10 +238,96 @@ public class PostPaymentTest extends BaseTest {
                 postPaymentAction.generatePaymentRestrictions(false, false, true)
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice);
     }
 
 
+    @Test
+    public void createCheckWithWrongVoucherPayment(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                data.miPrice,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                "WRONGVOUCHERCODE",
+                postPaymentAction.generatePaymentRestrictions(false, false, true)
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        postPaymentAction.checkResultPaymentAmount(response, 0.0);
+        postPaymentAction.checkResultInfo(response, "Unknown voucher code");
+    }
+
+
+    @Test
+    public void createCheckWithConsumedVoucherPayment(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                data.miPrice,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                data.profileVoucherConsumed,
+                postPaymentAction.generatePaymentRestrictions(false, false, true)
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        postPaymentAction.checkResultPaymentAmount(response, 0.0);
+        postPaymentAction.checkResultInfo(response, "Voucher is already consumed");
+    }
+
+
+    @Test
+    public void createCheckWithExpiredVoucherPayment(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                data.miPrice,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                data.profileVoucherExpired,
+                postPaymentAction.generatePaymentRestrictions(false, false, true)
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        postPaymentAction.checkResultPaymentAmount(response, 0.0);
+        postPaymentAction.checkResultInfo(response, "VOUCHER_EXPIRED");
+    }
+
+
+    @Test
+    public void createCheckWithLockedVoucherPayment(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                data.miPrice,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                data.profileVoucherLocked,
+                postPaymentAction.generatePaymentRestrictions(false, false, true)
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        postPaymentAction.checkResultPaymentAmount(response, 0.0);
+        postPaymentAction.checkResultInfo(response, "VOUCHER_LOCKED");
+    }
 
 
 
