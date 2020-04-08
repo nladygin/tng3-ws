@@ -179,7 +179,47 @@ public class PostPaymentTest extends BaseTest {
         postPaymentAction.checkResultPaymentAmount(response, 5.0);
     }
 
-/*
+
+    @Test
+    public void createCheckWithRouting(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCardSlave,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                5.0,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                postPaymentAction.generatePaymentRestrictions(false, true, false)
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 5.0);
+    }
+
+
+    @Test
+    public void createCheckWithDeniedRouting(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCardSlave,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                5.0,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                postPaymentAction.generatePaymentRestrictions(false, false, false)
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, 0.0);
+    }
+
+
     @Test
     public void createCheckWithVoucherPayment(){
         PostPaymentResponse response = postPaymentAction.postPayment(
@@ -188,17 +228,18 @@ public class PostPaymentTest extends BaseTest {
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
                 5.0,
-                0.0,
+                5.0,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
-                menuItemListAction.generate(data.miPrice, 4.0),
-                postPaymentAction.generatePaymentRestrictions(true, true, true)
+                menuItemListAction.generate(data.miPrice),
+                data.profileVoucher,
+                postPaymentAction.generatePaymentRestrictions(false, false, true)
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, 1.0);
+        postPaymentAction.checkResultPaymentAmount(response, 5.0);
     }
-*/
+
 
 
 

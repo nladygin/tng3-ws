@@ -27,6 +27,9 @@ public class Data {
     @Value("${profile_booking_id}")         public String profileBookingId;
     @Value("${profile_foreign_id}")         public String profileForeignId;
     @Value("${profile_ticket}")             public String profileTicket;
+    @Value("${profile_voucher}")            public String profileVoucher;
+
+    @Value("${profile_card_slave}")         public int profileCardSlave;
 
     @Value("${employee_id}")                public int employeeId;
     @Value("${employee_name}")              public String employeeName;
