@@ -15,7 +15,6 @@ import ru.hrs.lassd.club.ws.schema.ResultStatusFlag;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PostPaymentTest extends BaseTest {
 
-    double discount = 4.0;
 
 
     @Test
@@ -45,16 +44,16 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                data.miPrice - discount,
-                data.miPrice - discount,
+                data.miPrice - data.miDiscount,
+                data.miPrice - data.miDiscount,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
-                menuItemListAction.generate(data.miPrice, discount),
+                menuItemListAction.generate(data.miPrice, data.miDiscount),
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, data.miPrice - discount);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice - data.miDiscount);
     }
 
 
@@ -105,16 +104,16 @@ public class PostPaymentTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                data.miPrice - discount,
-                data.miPrice - discount,
+                data.miPrice - data.miDiscount,
+                data.miPrice - data.miDiscount,
                 utils.generateDigits(4),
                 data.employeeId,
                 data.employeeName,
-                menuItemListAction.generate(data.miPrice, discount),
+                menuItemListAction.generate(data.miPrice, data.miDiscount),
                 postPaymentAction.generatePaymentRestrictions()
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, (data.miPrice - discount)/2);
+        postPaymentAction.checkResultPaymentAmount(response, (data.miPrice - data.miDiscount)/2);
     }
 
 

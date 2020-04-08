@@ -25,6 +25,91 @@ public class AcquireLoyaltyAction extends BaseAction {
             String checkNumber,
             int cashierEmpId,
             String cashierEmpName,
+            MenuItemList menuItemList,
+            PaymentOptionsType loyaltyOptions
+    ) {
+
+        return acquireLoyalty(
+                number,
+                null,
+                postingGUID,
+                null,
+                postPropertyId,
+                registerId,
+                revenueCenterId,
+                null,
+                paymentAmount,
+                checkNumber,
+                cashierEmpId,
+                cashierEmpName,
+                "",
+                1,
+                0.0,
+                null,
+                menuItemList,
+                loyaltyOptions,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+
+    public AcquireLoyaltyResponse acquireLoyalty(
+            String number,
+            String postingGUID,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            double paymentAmount,
+            String checkNumber,
+            int cashierEmpId,
+            String cashierEmpName,
+            double serviceChargeAmount,
+            MenuItemList menuItemList,
+            PaymentOptionsType loyaltyOptions
+    ) {
+
+        return acquireLoyalty(
+                number,
+                null,
+                postingGUID,
+                null,
+                postPropertyId,
+                registerId,
+                revenueCenterId,
+                null,
+                paymentAmount,
+                checkNumber,
+                cashierEmpId,
+                cashierEmpName,
+                "",
+                1,
+                serviceChargeAmount,
+                null,
+                menuItemList,
+                loyaltyOptions,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+/*
+    public AcquireLoyaltyResponse acquireLoyalty(
+            String number,
+            String postingGUID,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            double paymentAmount,
+            String checkNumber,
+            int cashierEmpId,
+            String cashierEmpName,
             String cashierOptMask,
             int checkGuestCount,
             double serviceChargeAmount,
@@ -58,7 +143,7 @@ public class AcquireLoyaltyAction extends BaseAction {
                 null
                 );
     }
-
+*/
 
 
     public AcquireLoyaltyResponse acquireLoyalty(
@@ -125,6 +210,17 @@ public class AcquireLoyaltyAction extends BaseAction {
                 CoreMatchers.equalTo(expectedResultStatusFlag)
         );
     }
+
+
+
+
+    public void checkItemDiscount(AcquireLoyaltyResponse response, int itemNum, Double expectedResultItemDiscount) {
+        assertThat(
+                response.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(itemNum).getDiscount(),
+                CoreMatchers.equalTo(expectedResultItemDiscount)
+        );
+    }
+
 
 
     public void checkResultInfo(AcquireLoyaltyResponse response, String expectedPaymentInfo) {

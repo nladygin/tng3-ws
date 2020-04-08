@@ -15,6 +15,8 @@ import java.math.BigInteger;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AcquireLoyaltyTest extends BaseTest {
 
+
+
     @Test
     public void createCheck() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
@@ -23,17 +25,15 @@ public class AcquireLoyaltyTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                10.0,
+                data.miPrice,
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,
                 data.employeeName,
-                "",
-                1,
-                0.0,
                 menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
     }
 
 
@@ -45,17 +45,16 @@ public class AcquireLoyaltyTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                10.0,
+                data.miPrice,
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,
                 data.employeeName,
-                "",
-                1,
                 3.0,
                 menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
     }
 
 
@@ -67,17 +66,15 @@ public class AcquireLoyaltyTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                10.0,
+                data.miPrice-data.miDiscount,
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,
                 data.employeeName,
-                "",
-                1,
-                0.0,
-                menuItemListAction.generate(3.0),
+                menuItemListAction.generate(data.miPrice, data.miDiscount),
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
     }
 
 
@@ -89,13 +86,10 @@ public class AcquireLoyaltyTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                10.0,
+                data.miPrice,
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,
                 data.employeeName,
-                "",
-                1,
-                0.0,
                 menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
@@ -112,13 +106,10 @@ public class AcquireLoyaltyTest extends BaseTest {
                 666,
                 uniqueIDAction.generate(data.wsId),
                 data.rvcNumber,
-                10.0,
+                data.miPrice,
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,
                 data.employeeName,
-                "",
-                1,
-                0.0,
                 menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
@@ -135,13 +126,10 @@ public class AcquireLoyaltyTest extends BaseTest {
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
                 BigInteger.valueOf(666),
-                10.0,
+                data.miPrice,
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,
                 data.employeeName,
-                "",
-                1,
-                0.0,
                 menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
@@ -162,9 +150,6 @@ public class AcquireLoyaltyTest extends BaseTest {
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,
                 data.employeeName,
-                "",
-                1,
-                0.0,
                 menuItemListAction.generate(data.miPrice),
                 paymentOptionsTypeAction.generate()
         );
