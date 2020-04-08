@@ -100,6 +100,48 @@ public class AcquireLoyaltyTest extends BaseTest {
 
 
     @Test
+    public void createCheckWithDiscountVoucher() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                data.profileVoucherDiscount,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generate()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-2);
+    }
+
+
+    @Test
+    public void createCheckWithAmountVoucher() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                data.profileVoucher,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generate()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
+    }
+
+
+    @Test
     public void createCheckWithWrongCard() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
                 "CID:666",

@@ -147,6 +147,51 @@ public class AcquireLoyaltyAction extends BaseAction {
 
 
 
+    /* + Voucher */
+    public AcquireLoyaltyResponse acquireLoyalty(
+            String number,
+            String postingGUID,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            double paymentAmount,
+            String checkNumber,
+            int cashierEmpId,
+            String cashierEmpName,
+            String voucherCode,
+            MenuItemList menuItemList,
+            PaymentOptionsType loyaltyOptions
+    ) {
+
+        return acquireLoyalty(
+                number,
+                null,
+                postingGUID,
+                null,
+                postPropertyId,
+                registerId,
+                revenueCenterId,
+                null,
+                paymentAmount,
+                checkNumber,
+                cashierEmpId,
+                cashierEmpName,
+                "",
+                1,
+                0.0,
+                voucherCode,
+                menuItemList,
+                loyaltyOptions,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+
+
     /* Full */
     public AcquireLoyaltyResponse acquireLoyalty(
             String number,

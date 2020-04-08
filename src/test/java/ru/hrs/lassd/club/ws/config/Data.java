@@ -31,6 +31,7 @@ public class Data {
     @Value("${profile_voucher_consumed}")   public String profileVoucherConsumed;
     @Value("${profile_voucher_expired}")    public String profileVoucherExpired;
     @Value("${profile_voucher_locked}")     public String profileVoucherLocked;
+    @Value("${profile_voucher_discount}")   public String profileVoucherDiscount;
 
     @Value("${profile_card_slave}")         public int profileCardSlave;
 
