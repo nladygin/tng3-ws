@@ -18,7 +18,31 @@ public class AcquireLoyaltyTest extends BaseTest {
 
 
     @Test
-    public void createCheck() {
+    public void createCheckWithDiscountRule() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generateWithDiscountRules()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithoutDiscountRule() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
@@ -33,7 +57,11 @@ public class AcquireLoyaltyTest extends BaseTest {
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
     }
 
 
@@ -54,12 +82,35 @@ public class AcquireLoyaltyTest extends BaseTest {
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
     }
 
 
     @Test
-    public void createCheckWithDiscount() {
+    public void createCheckWithItemManualDiscountAndEnabledDiscountRules() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice-data.miDiscount,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice, data.miDiscount),
+                paymentOptionsTypeAction.generateWithDiscountRules()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithItemManualDiscountAndDisabledDiscountRules() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
@@ -75,11 +126,40 @@ public class AcquireLoyaltyTest extends BaseTest {
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
         acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
     }
 
 
     @Test
-    public void createCheckWithMealPeriod() {
+    public void createCheckWithMealPeriodWithEnabledDiscountRules() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                1L,
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generateWithDiscountRules()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-2);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithMealPeriodWithDisabledDiscountRules() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
@@ -95,12 +175,41 @@ public class AcquireLoyaltyTest extends BaseTest {
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-2);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
     }
 
 
     @Test
-    public void createCheckWithDiscountVoucher() {
+    public void createCheckWithDiscountVoucherWithEnabledDiscountRules() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                data.profileVoucherDiscount,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generateWithDiscountRules()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-2);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithDiscountVoucherWithDisabledDiscountRules() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
@@ -116,10 +225,183 @@ public class AcquireLoyaltyTest extends BaseTest {
                 paymentOptionsTypeAction.generate()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-2);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
     }
 
 
+    @Test
+    public void createCheckWithDiscountRedeemRule() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generateWithDiscountRedeem()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, data.miPrice*-1);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithBonusRedeemRule() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generateWithBonusRedeem()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, data.miPrice*-1);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithSubscriptionRedeemRule() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generateWithSubscriptionRedeem()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, data.miPrice*-1);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithFullMincemeat() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generate(
+                        true,
+                        true,
+                        true,
+                        true,
+                        true,
+                        true,
+                        true
+                )
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, data.miPrice*-1);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithoutSubscriptionRedeem() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generate(
+                        false,
+                        true,
+                        true,
+                        true,
+                        true,
+                        true,
+                        true
+                )
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, data.miPrice*-1 - data.miPrice/-10);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
+    @Test
+    public void createCheckWithoutDiscountRedeem() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generate(
+                        false,
+                        true,
+                        false,
+                        true,
+                        true,
+                        true,
+                        true
+                )
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, data.miPrice - data.miPrice/10);
+    }
+
+
+/*
     @Test
     public void createCheckWithAmountVoucher() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
@@ -139,7 +421,7 @@ public class AcquireLoyaltyTest extends BaseTest {
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
         acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
     }
-
+*/
 
     @Test
     public void createCheckWithWrongCard() {

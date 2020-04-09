@@ -14,12 +14,104 @@ public class PaymentOptionsTypeAction {
                 false,
                 false,
                 false,
+                false,
+                false,
+                false,
+                false
+        );
+    }
+
+
+    public PaymentOptionsType generateWithSubscriptionRedeem(){
+        return generate(
                 true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+        );
+    }
+
+
+    public PaymentOptionsType generateWithBonusRedeem(){
+        return generate(
+                false,
                 true,
+                false,
+                false,
+                false,
+                false,
+                false
+        );
+    }
+
+
+    public PaymentOptionsType generateWithDiscountRedeem(){
+        return generate(
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false
+        );
+    }
+
+
+    public PaymentOptionsType generateWithDiscountRules(){
+        return generate(
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false
+        );
+    }
+
+
+    public PaymentOptionsType generateWithBonusRules(){
+        return generate(
+                false,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false
+        );
+    }
+
+
+    public PaymentOptionsType generateWithSubscriptionPurchase(){
+        return generate(
+                false,
+                false,
+                false,
+                false,
+                false,
+                true,
+                false
+        );
+    }
+
+
+    public PaymentOptionsType generateWithBonusTriggers(){
+        return generate(
+                false,
+                false,
+                false,
+                false,
+                false,
                 false,
                 true
         );
     }
+
 
 
 
@@ -40,7 +132,6 @@ public class PaymentOptionsTypeAction {
             pot.setBonusRules(bonusRules ? "T" : "F");
             pot.setSubscriptionPurchase(subscriptionPurchase ? "T" : "F");
             pot.setBonusTriggers(bonusTriggers ? "T" : "F");
-
         return pot;
     }
 

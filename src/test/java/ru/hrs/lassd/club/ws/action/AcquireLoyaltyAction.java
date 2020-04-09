@@ -269,6 +269,38 @@ public class AcquireLoyaltyAction extends BaseAction {
     }
 
 
+    public void checkItemRedeem(AcquireLoyaltyResponse response, int itemNum, Double expectedResultRedeem) {
+        assertThat(
+                response.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(itemNum).getRedeem(),
+                CoreMatchers.equalTo(expectedResultRedeem)
+        );
+    }
+
+
+    public void checkItemBonus(AcquireLoyaltyResponse response, int itemNum, Double expectedResultBonus) {
+        assertThat(
+                response.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(itemNum).getBonus(),
+                CoreMatchers.equalTo(expectedResultBonus)
+        );
+    }
+
+
+    public void checkItemSubscription(AcquireLoyaltyResponse response, int itemNum, Double expectedResultSubscription) {
+        assertThat(
+                Double.valueOf(response.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(itemNum).getSubscription()),
+                CoreMatchers.equalTo(expectedResultSubscription)
+        );
+    }
+
+
+    public void checkItemPoints(AcquireLoyaltyResponse response, int itemNum, Double expectedResultPoints) {
+        assertThat(
+                response.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(itemNum).getPoints(),
+                CoreMatchers.equalTo(expectedResultPoints)
+        );
+    }
+
+
 
     public void checkResultInfo(AcquireLoyaltyResponse response, String expectedPaymentInfo) {
         assertThat(
