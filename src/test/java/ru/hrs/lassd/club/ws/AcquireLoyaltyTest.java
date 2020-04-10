@@ -401,6 +401,31 @@ public class AcquireLoyaltyTest extends BaseTest {
     }
 
 
+    @Test
+    public void createCheckWithGuestNumber() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                2,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generateWithDiscountRules()
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-5);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+    }
+
+
 /*
     @Test
     public void createCheckWithAmountVoucher() {
