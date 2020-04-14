@@ -45,6 +45,18 @@ public class Data {
     @Value("${mi_si}")                      public int miSI;
     @Value("${mi_fgrp}")                    public int miFGrp;
 
+    @Value("${tender_id}")                  public int tenderId;
+    @Value("${tender_name}")                public String tenderName;
+    @Value("${deposit_tender_id}")          public int depositTenderId;
+    @Value("${deposit_tender_name}")        public String depositTenderName;
+
+    @Value("${tax_vat_id}")                 public int taxVATId;
+    @Value("${tax_vat_name}")               public String taxVATName;
+    @Value("${tax_vat_rate}")               public double taxVATRate;
+    @Value("${tax_addon_id}")               public int taxAddonId;
+    @Value("${tax_addon_name}")             public String taxAddonName;
+    @Value("${tax_addon_rate}")             public double taxAddonRate;
+
 
 
 

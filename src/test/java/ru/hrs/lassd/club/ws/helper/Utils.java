@@ -5,6 +5,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -87,9 +90,33 @@ public class Utils {
 
 
 
+    public double calcVAT(double amount, double rate) {
+        return round(amount - (amount/(1+rate/100)),2);
+    }
+
+    public double calcNetAmountVAT(double amount, double rate) {
+        return round(amount/(1+rate/100),2);
+    }
+
+
+    public double calcAddon(double amount, double rate) {
+        return round(amount*18/100,2);
+    }
+
+    public double calcNetAmountAddon(double amount, double rate) {
+        return round(amount*(1+rate/100),2);
+    }
 
 
 
+
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 
 
 
