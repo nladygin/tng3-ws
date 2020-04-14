@@ -13,25 +13,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class MenuItemAction {
 
 
-/*
-    public MenuItem generateMenuItem() {
-        String salt = String.valueOf(utils.generateDigits(8));
-        return createMenuItem(
-                salt,
-                "menu item " + salt,
-                1,
-                data.miPrice,
-                data.miPrice,
-                0.0,
-                data.miSI,
-                data.miFGrp,
-                0.0,
-                null,
-                null,
-                null
-        );
-    }
-*/
 
     public MenuItem generateMenuItem(Double price, Double discount) {
         String salt = String.valueOf(utils.generateDigits(8));
@@ -45,6 +26,45 @@ public class MenuItemAction {
                 data.miSI,
                 data.miFGrp,
                 0.0,
+                null,
+                null,
+                null
+        );
+    }
+
+
+
+    public MenuItem generateMenuItem(Long itemId, Double price, Double discount, Double tax) {
+        return createMenuItem(
+                String.valueOf(itemId),
+                "menu item " + itemId,
+                1,
+                price,
+                price,
+                discount,
+                data.miSI,
+                data.miFGrp,
+                tax,
+                null,
+                null,
+                null
+        );
+    }
+
+
+
+    public MenuItem generateMenuItem(Double price, Double discount, Double tax) {
+        String salt = String.valueOf(utils.generateDigits(8));
+        return createMenuItem(
+                salt,
+                "menu item " + salt,
+                1,
+                price,
+                price,
+                discount,
+                data.miSI,
+                data.miFGrp,
+                tax,
                 null,
                 null,
                 null

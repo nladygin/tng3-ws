@@ -15,37 +15,93 @@ public class DocConfirmTest extends BaseTest {
 
 
     @Test
-    public void confirmCheckVAT(){
-        AcquireLoyaltyResponse acquireLoyaltyResponse = createCheck();
-        double netItemPrice = data.miPrice + acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getDiscount();
+    public void confirmCheckWithVATByDummy(){
+        AcquireLoyaltyResponse acquireLoyaltyResponse = makeAcquireLoyalty();
+            long miId = Long.parseLong(acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getId());
+            double itemDiscount = acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getDiscount();
+            double itemPrice = data.miPrice + itemDiscount;
+            double tax = utils.calcVAT(itemPrice, data.taxVATRate);
 
-            DocConfirmResponse response = docConfirmAction.docConfirm(
-                    uniqueIDAction.generate(data.wsId),
-                    acquireLoyaltyResponse.getPostingGUID(),
-                    "",
-                    null,
-                    menuItemListAction.generate(netItemPrice),
-                    paymentItemListAction.generate(false, utils.calcNetAmountVAT(netItemPrice, data.taxVATRate)),
-                    taxItemListAction.generate(true, data.taxVATRate, utils.calcVAT(netItemPrice, data.taxVATRate))
-            );
+                DocConfirmResponse response = docConfirmAction.docConfirm(
+                        uniqueIDAction.generate(data.wsId),
+                        acquireLoyaltyResponse.getPostingGUID(),
+                        "",
+                        null,
+                        menuItemListAction.generate(miId, data.miPrice, itemDiscount, tax),
+                        paymentItemListAction.generate(false, itemPrice),
+                        taxItemListAction.generate(true, data.taxVATRate, utils.calcVAT(itemPrice, data.taxVATRate))
+                );
         docConfirmAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
     }
 
 
     @Test
-    public void confirmCheckAddon(){
-        AcquireLoyaltyResponse acquireLoyaltyResponse = createCheck();
-        double netItemPrice = data.miPrice + acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getDiscount();
+    public void confirmCheckWithVATByDeposit(){
+        AcquireLoyaltyResponse acquireLoyaltyResponse = makeAcquireLoyalty();
+            String postingGUID = acquireLoyaltyResponse.getPostingGUID();
+            long miId = Long.parseLong(acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getId());
+            double itemDiscount = acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getDiscount();
+            double itemPrice = data.miPrice + itemDiscount;
+            double tax = utils.calcVAT(itemPrice, data.taxVATRate);
 
-            DocConfirmResponse response = docConfirmAction.docConfirm(
+            makePostPayment(postingGUID, miId, itemPrice, itemDiscount, 0.0);
+
+                DocConfirmResponse response = docConfirmAction.docConfirm(
+                        uniqueIDAction.generate(data.wsId),
+                        postingGUID,
+                        "",
+                        null,
+                        menuItemListAction.generate(miId, data.miPrice, itemDiscount, tax),
+                        paymentItemListAction.generate(true, itemPrice),
+                        taxItemListAction.generate(true, data.taxVATRate, utils.calcVAT(itemPrice, data.taxVATRate))
+                );
+        docConfirmAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+    }
+
+
+    @Test
+    public void confirmCheckWithAddonByDummy(){
+        AcquireLoyaltyResponse acquireLoyaltyResponse = makeAcquireLoyalty();
+            long miId = Long.parseLong(acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getId());
+            double itemDiscount = acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getDiscount();
+            double itemNetPrice = data.miPrice + itemDiscount;
+            double tax = utils.calcAddon(itemNetPrice, data.taxAddonRate);
+            double itemPrice = itemNetPrice + tax;
+
+                DocConfirmResponse response = docConfirmAction.docConfirm(
                         uniqueIDAction.generate(data.wsId),
                         acquireLoyaltyResponse.getPostingGUID(),
                         "",
                         null,
-                        menuItemListAction.generate(netItemPrice),
-                        paymentItemListAction.generate(false, utils.calcNetAmountAddon(netItemPrice, data.taxAddonRate)),
-                        taxItemListAction.generate(true, data.taxAddonRate, utils.calcAddon(netItemPrice, data.taxAddonRate))
-            );
+                        menuItemListAction.generate(miId, data.miPrice, itemDiscount, tax),
+                        paymentItemListAction.generate(false, itemPrice),
+                        taxItemListAction.generate(false, data.taxAddonRate, utils.calcAddon(itemNetPrice, data.taxAddonRate))
+                );
+        docConfirmAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+    }
+
+
+    @Test
+    public void confirmCheckWithAddonByDeposit(){
+        AcquireLoyaltyResponse acquireLoyaltyResponse = makeAcquireLoyalty();
+            String postingGUID = acquireLoyaltyResponse.getPostingGUID();
+            long miId = Long.parseLong(acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getId());
+            double itemDiscount = acquireLoyaltyResponse.getLoyaltyMenuItemList().getLoyaltyMenuItem().get(0).getDiscount();
+            double itemNetPrice = data.miPrice + itemDiscount;
+            double tax = utils.calcAddon(itemNetPrice, data.taxAddonRate);
+            double itemPrice = utils.round(itemNetPrice + tax, 2);
+
+                makePostPayment(postingGUID, miId, itemPrice, -1*itemDiscount, tax);
+
+                DocConfirmResponse response = docConfirmAction.docConfirm(
+                        uniqueIDAction.generate(data.wsId),
+                        postingGUID,
+                        "",
+                        null,
+                        menuItemListAction.generate(miId, data.miPrice, itemDiscount, tax),
+                        paymentItemListAction.generate(true, itemPrice),
+                        taxItemListAction.generate(false, data.taxAddonRate, utils.calcAddon(itemNetPrice, data.taxAddonRate))
+                );
         docConfirmAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
     }
 
@@ -72,7 +128,7 @@ public class DocConfirmTest extends BaseTest {
 
 
 
-    private AcquireLoyaltyResponse createCheck() {
+    private AcquireLoyaltyResponse makeAcquireLoyalty() {
         AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
                 "CID:"+data.profileCard,
                 String.valueOf(utils.generateDigits(10)),
@@ -96,11 +152,33 @@ public class DocConfirmTest extends BaseTest {
     }
 
 
+    private PostPaymentResponse makePostPayment(String postingGUID, long miId, double amount, double miDiscount, double addonTax) {
+            PostPaymentResponse response = postPaymentAction.postPayment(
+                    "CID:" + data.profileCard,
+                    postingGUID,
+                    data.siteId,
+                    uniqueIDAction.generate(data.wsId),
+                    data.rvcNumber,
+                    amount,
+                    amount,
+                    utils.generateDigits(4),
+                    data.employeeId,
+                    data.employeeName,
+                    menuItemListAction.generate(miId, data.miPrice, -1*miDiscount, addonTax),
+                    postPaymentAction.generatePaymentRestrictions()
+            );
+            postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+            postPaymentAction.checkResultPaymentAmount(response, amount);
+        return response;
+    }
+
+
 
 
 
     @Autowired private DocConfirmAction docConfirmAction;
     @Autowired private AcquireLoyaltyAction acquireLoyaltyAction;
+    @Autowired private PostPaymentAction postPaymentAction;
     @Autowired private PaymentOptionsTypeAction paymentOptionsTypeAction;
     @Autowired private UniqueIDAction uniqueIDAction;
     @Autowired private MenuItemListAction menuItemListAction;

@@ -23,6 +23,22 @@ public class MenuItemListAction {
     }
 
 
+
+    public MenuItemList generate(Double price, Double discount, Double tax) {
+        MenuItemList miList = new MenuItemList();
+            miList.getMenuItem().add(menuItemAction.generateMenuItem(price, discount, tax));
+        return miList;
+    }
+
+
+    public MenuItemList generate(Long itemId, Double price, Double discount, Double tax) {
+        MenuItemList miList = new MenuItemList();
+        miList.getMenuItem().add(menuItemAction.generateMenuItem(itemId, price, discount, tax));
+        return miList;
+    }
+
+
+
     public MenuItemList generate(int itemNumber, Double price, Double discount) {
         MenuItemList miList = new MenuItemList();
             for (int i = 0; i < itemNumber; i++) {

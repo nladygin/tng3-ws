@@ -12,7 +12,7 @@ public class PaymentItemListAction {
     public PaymentListType generate(boolean isDeposit, double amount) {
         PaymentListType paymentListType = new PaymentListType();
             if (isDeposit) {
-                paymentListType.getPaymentListItem().add(paymentItemAction.generatePaymentItem(amount));
+                paymentListType.getPaymentListItem().add(paymentItemAction.generateDepositPaymentItem(amount));
             } else {
                 paymentListType.getPaymentListItem().add(paymentItemAction.generatePaymentItem(amount));
             }

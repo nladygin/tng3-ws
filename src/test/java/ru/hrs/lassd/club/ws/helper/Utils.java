@@ -100,7 +100,7 @@ public class Utils {
 
 
     public double calcAddon(double amount, double rate) {
-        return round(amount*18/100,2);
+        return round(amount*rate/100,2);
     }
 
     public double calcNetAmountAddon(double amount, double rate) {
