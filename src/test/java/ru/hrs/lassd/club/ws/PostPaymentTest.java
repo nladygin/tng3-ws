@@ -58,6 +58,47 @@ public class PostPaymentTest extends BaseTest {
 
 
     @Test
+    public void createCheckWithItemDiscountAndVATTax(){
+        PostPaymentResponse response = postPaymentAction.postPayment(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice - data.miDiscount,
+                data.miPrice - data.miDiscount,
+                utils.generateDigits(4),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice, data.miDiscount, utils.calcVAT(data.miPrice-data.miDiscount, data.taxVATRate)),
+                postPaymentAction.generatePaymentRestrictions()
+        );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice - data.miDiscount);
+    }
+
+
+    @Test
+    public void createCheckWithItemDiscountAndAddonTax(){
+        double tax = utils.calcAddon(data.miPrice - data.miDiscount, data.taxAddonRate);
+            PostPaymentResponse response = postPaymentAction.postPayment(
+                    "CID:" + data.profileCard,
+                    data.siteId,
+                    uniqueIDAction.generate(data.wsId),
+                    data.rvcNumber,
+                    data.miPrice - data.miDiscount + tax,
+                    data.miPrice - data.miDiscount + tax,
+                    utils.generateDigits(4),
+                    data.employeeId,
+                    data.employeeName,
+                    menuItemListAction.generate(data.miPrice, -1*data.miDiscount, utils.calcAddon(data.miPrice-data.miDiscount, data.taxAddonRate)),
+                    postPaymentAction.generatePaymentRestrictions()
+            );
+        postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice - data.miDiscount + tax);
+    }
+
+
+    @Test
     public void createCheckWithPartialPayment(){
         PostPaymentResponse response = postPaymentAction.postPayment(
                 "CID:" + data.profileCard,
