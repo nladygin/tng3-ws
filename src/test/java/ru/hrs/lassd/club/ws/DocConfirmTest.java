@@ -44,7 +44,7 @@ public class DocConfirmTest extends BaseTest {
             double itemPrice = data.miPrice + itemDiscount;
             double tax = utils.calcVAT(itemPrice, data.taxVATRate);
 
-            makePostPayment(postingGUID, miId, itemPrice, itemDiscount, 0.0);
+            makePostPayment(postingGUID, miId, itemPrice, -1*itemDiscount, 0.0);
 
                 DocConfirmResponse response = docConfirmAction.docConfirm(
                         uniqueIDAction.generate(data.wsId),
@@ -91,7 +91,7 @@ public class DocConfirmTest extends BaseTest {
             double tax = utils.calcAddon(itemNetPrice, data.taxAddonRate);
             double itemPrice = utils.round(itemNetPrice + tax, 2);
 
-                makePostPayment(postingGUID, miId, itemPrice, -1*itemDiscount, tax);
+                makePostPayment(postingGUID, miId, itemPrice, itemDiscount, tax);
 
                 DocConfirmResponse response = docConfirmAction.docConfirm(
                         uniqueIDAction.generate(data.wsId),
@@ -164,7 +164,7 @@ public class DocConfirmTest extends BaseTest {
                     utils.generateDigits(4),
                     data.employeeId,
                     data.employeeName,
-                    menuItemListAction.generate(miId, data.miPrice, -1*miDiscount, addonTax),
+                    menuItemListAction.generate(miId, data.miPrice, miDiscount, addonTax),
                     postPaymentAction.generatePaymentRestrictions()
             );
             postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
