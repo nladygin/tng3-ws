@@ -90,7 +90,7 @@ public class PostPaymentTest extends BaseTest {
                     utils.generateDigits(4),
                     data.employeeId,
                     data.employeeName,
-                    menuItemListAction.generate(data.miPrice, -1*data.miDiscount, utils.calcAddon(data.miPrice-data.miDiscount, data.taxAddonRate)),
+                    menuItemListAction.generate(data.miPrice, data.miDiscount, tax),
                     postPaymentAction.generatePaymentRestrictions()
             );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
