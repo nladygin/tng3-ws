@@ -38,7 +38,7 @@ public class Data {
     @Value("${employee_id}")                public int employeeId;
     @Value("${employee_name}")              public String employeeName;
 
-    @Value("${mi_id}")                      public String miId;
+    @Value("${mi_id}")                      public Long miId;
     @Value("${mi_name}")                    public String miName;
     @Value("${mi_price}")                   public Double miPrice;
     @Value("${mi_discount}")                public Double miDiscount;

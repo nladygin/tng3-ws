@@ -269,7 +269,7 @@ public class AcquireLoyaltyTest extends BaseTest {
                 String.valueOf(utils.generateDigits(4)),
                 data.employeeId,
                 data.employeeName,
-                menuItemListAction.generate(data.miPrice),
+                menuItemListAction.generate(data.miId, data.miPrice, 0.0, 0.0),
                 paymentOptionsTypeAction.generateWithBonusRedeem()
         );
         acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
