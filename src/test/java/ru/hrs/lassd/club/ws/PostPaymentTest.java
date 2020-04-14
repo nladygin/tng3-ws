@@ -94,7 +94,7 @@ public class PostPaymentTest extends BaseTest {
                     postPaymentAction.generatePaymentRestrictions()
             );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        postPaymentAction.checkResultPaymentAmount(response, data.miPrice - data.miDiscount + tax);
+        postPaymentAction.checkResultPaymentAmount(response, data.miPrice - data.miDiscount);
     }
 
 
