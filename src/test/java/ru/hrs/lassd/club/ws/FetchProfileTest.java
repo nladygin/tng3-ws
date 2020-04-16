@@ -218,7 +218,7 @@ public class FetchProfileTest extends BaseTest {
     @Test
     public void fetchProfileByBookingId() {
         FetchProfileResponse response = fetchProfileAction.fetchProfile(
-                "RES:" + data.profileBookingId,
+                "RES:" + data.siteId + "|" + data.profileBookingId,
                 data.siteId,
                 data.outletID
         );
