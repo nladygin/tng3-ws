@@ -6,6 +6,9 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -26,6 +29,16 @@ public class Utils {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, dayShift);
         return f.format( DateUtils.ceiling(cal.getTime(), Calendar.HOUR) );
+    }
+
+
+
+
+    public XMLGregorianCalendar generateDateXML(int dayShift) throws DatatypeConfigurationException {
+        GregorianCalendar cal = new GregorianCalendar();
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_MONTH, dayShift);
+        return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
     }
 
 

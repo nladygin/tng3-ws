@@ -21,6 +21,8 @@ public class Data {
     @Value("${profile_card}")               public int profileCard;
     @Value("${profile_magstripe}")          public String profileMagstripe;
     @Value("${profile_extra_magstripe}")    public String profileExtraMagstripe;
+    @Value("${profile_expired_magstripe}")  public String profileExpiredMagstripe;
+    @Value("${profile_locked_magstripe}")   public String profileLockedMagstripe;
     @Value("${profile_mobile}")             public String profileMobile;
     @Value("${profile_key_code}")           public String profileKeyCode;
     @Value("${profile_key_number}")         public String profileKeyNumber;

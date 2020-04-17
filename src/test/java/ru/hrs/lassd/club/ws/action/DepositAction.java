@@ -1,9 +1,7 @@
 package ru.hrs.lassd.club.ws.action;
 
 import org.hamcrest.CoreMatchers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.hrs.lassd.club.ws.config.Data;
 import ru.hrs.lassd.club.ws.schema.*;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -28,7 +26,90 @@ public class DepositAction extends BaseAction{
             String cashierEmpName,
             String account,
             long checkNumber,
-            Boolean loanFlag,
+            Boolean confirm
+    ) {
+        return deposit(
+                number,
+                null,
+                null,
+                false,
+                postPropertyId,
+                registerId,
+                revenueCenterId,
+                paymentAmount,
+                cashierEmpId,
+                cashierEmpName,
+                "",
+                account,
+                checkNumber,
+                false,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                confirm
+        );
+    }
+
+
+
+    /* void */
+    public DepositResponse deposit(
+            String number,
+            String postingGUID,
+            Boolean voidFlag,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            int cashierEmpId,
+            String cashierEmpName,
+            String account,
+            long checkNumber,
+            Boolean confirm
+    ) {
+        return deposit(
+                number,
+                null,
+                postingGUID,
+                voidFlag,
+                postPropertyId,
+                registerId,
+                revenueCenterId,
+                0.0,
+                cashierEmpId,
+                cashierEmpName,
+                "",
+                account,
+                checkNumber,
+                false,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                confirm
+        );
+    }
+
+
+
+    /* loan with expire date */
+    public DepositResponse deposit(
+            String number,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            Double paymentAmount,
+            int cashierEmpId,
+            String cashierEmpName,
+            String account,
+            long checkNumber,
+            XMLGregorianCalendar expiryDate,
             Boolean confirm
     ) {
         return deposit(
@@ -45,8 +126,8 @@ public class DepositAction extends BaseAction{
                 "",
                 account,
                 checkNumber,
-                loanFlag,
-                null,
+                true,
+                expiryDate,
                 null,
                 null,
                 null,
@@ -64,7 +145,7 @@ public class DepositAction extends BaseAction{
             String number,
             UniqueID clientId,
             String postingGUID,
-            String voidFlag,
+            Boolean voidFlag,
             int postPropertyId,
             UniqueID registerId,
             BigInteger revenueCenterId,
@@ -89,7 +170,7 @@ public class DepositAction extends BaseAction{
             request.setNumber(number);
             request.setClientId(clientId);
             request.setPostingGUID(postingGUID);
-            request.setVoidFlag(voidFlag);
+            request.setVoidFlag(voidFlag ? "T" : "F");
             request.setPostPropertyId(String.valueOf(postPropertyId));
             request.setRegisterId(registerId);
             request.setRevenueCenterId(String.valueOf(revenueCenterId));
@@ -125,10 +206,50 @@ public class DepositAction extends BaseAction{
     }
 
 
+    public void checkResultPostingGUID(DepositResponse response, String postingGUID) {
+        assertThat(
+                response.getPostingGUID(),
+                CoreMatchers.equalTo(postingGUID)
+        );
+    }
+
+
+    public void checkResultCheckNumber(DepositResponse response, String checkNumber) {
+        assertThat(
+                response.getCheckNumber(),
+                CoreMatchers.equalTo(checkNumber)
+        );
+    }
+
+
     public void checkResultPaymentAmount(DepositResponse response, Double paymentAmount) {
         assertThat(
                 Double.valueOf(response.getPaymentAmount()),
                 CoreMatchers.equalTo(paymentAmount)
+        );
+    }
+
+
+    public void checkResultAccount(DepositResponse response, String account) {
+        assertThat(
+                response.getAccount(),
+                CoreMatchers.equalTo(account)
+        );
+    }
+
+
+    public void checkResultPaymentInfo(DepositResponse response, String paymentInfo) {
+        assertThat(
+                response.getPaymentInfo(),
+                CoreMatchers.equalTo(paymentInfo)
+        );
+    }
+
+
+    public void checkResultCardId(DepositResponse response, int cardId) {
+        assertThat(
+                Integer.valueOf(response.getCardId()),
+                CoreMatchers.equalTo(cardId)
         );
     }
 

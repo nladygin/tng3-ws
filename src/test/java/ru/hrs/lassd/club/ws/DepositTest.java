@@ -12,13 +12,16 @@ import ru.hrs.lassd.club.ws.schema.AddKeyResponse;
 import ru.hrs.lassd.club.ws.schema.DepositResponse;
 import ru.hrs.lassd.club.ws.schema.ResultStatusFlag;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.math.BigInteger;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DepositTest extends BaseTest {
 
 
     @Test
-    public void depositTopUp() {
+    public void depositTopUpByCardId() {
         DepositResponse response = depositAction.deposit(
                 "CID:" + data.profileCard,
                 data.siteId,
@@ -29,12 +32,278 @@ public class DepositTest extends BaseTest {
                 data.employeeName,
                 "DEPO",
                 utils.generateDigits(4),
-                false,
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        depositAction.checkResultPaymentAmount(response, 5.0);
+        depositAction.checkResultCardId(response, data.profileCard);
+    }
+
+
+    @Test
+    public void depositTopUpByWrongCardId() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + "666",
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultCardId(response, 666);
+        depositAction.checkResultAccount(response, "DEPO");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultPaymentInfo(response, "Card with # 666 not found !");
+        depositAction.checkResultPostingGUID(response, "0");
+    }
+
+
+    @Test
+    public void depositTopUpByExpiredCard() {
+        DepositResponse response = depositAction.deposit(
+                "MSW:" + data.profileExpiredMagstripe,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultCardId(response, data.profileCard);
+        depositAction.checkResultAccount(response, "DEPO");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultPaymentInfo(response, "Card expired !");
+        depositAction.checkResultPostingGUID(response, "0");
+    }
+
+
+    @Test
+    public void depositTopUpByLockedCard() {
+        DepositResponse response = depositAction.deposit(
+                "MSW:" + data.profileLockedMagstripe,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultAccount(response, "DEPO");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultPaymentInfo(response, "Card is locked !");
+        depositAction.checkResultPostingGUID(response, "0");
+    }
+
+
+    @Test
+    public void depositTopUpByMagstripe() {
+        DepositResponse response = depositAction.deposit(
+                "MSW:" + data.profileMagstripe,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        depositAction.checkResultPaymentAmount(response, 5.0);
+        depositAction.checkResultCardId(response, data.profileCard);
+    }
+
+
+    @Test
+    public void depositLoan() throws DatatypeConfigurationException {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                utils.generateDateXML(1),
                 true
         );
         depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
         depositAction.checkResultPaymentAmount(response, 5.0);
     }
+
+
+    @Test
+    public void depositLoanWithoutExpiry() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                null,
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+    }
+
+
+    @Test
+    public void depositTopUpAndVoid() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        depositAction.checkResultPaymentAmount(response, 5.0);
+
+            String postingGUID = response.getPostingGUID();
+            long checkNumber = utils.generateDigits(4);
+
+            response = depositAction.deposit(
+                    "CID:" + data.profileCard,
+                    postingGUID,
+                    true,
+                    data.siteId,
+                    uniqueIDAction.generate(data.wsId),
+                    data.rvcNumber,
+                    data.employeeId,
+                    data.employeeName,
+                    "DEPO",
+                    checkNumber,
+                    true
+            );
+        depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultCheckNumber(response, String.valueOf(checkNumber));
+        depositAction.checkResultPostingGUID(response, postingGUID);
+        depositAction.checkResultAccount(response, "DEPO");
+    }
+
+
+    @Test
+    public void depositVoidWithWrongPostingGUID() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                "666",
+                true,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        depositAction.checkResultAccount(response, "DEPO");
+        depositAction.checkResultPaymentInfo(response, "Document not found - nothing to void");
+        depositAction.checkResultPostingGUID(response, "666");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+    }
+
+
+    @Test
+    public void depositVoidWithEmptyPostingGUID() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                "",
+                true,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultAccount(response, "DEPO");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultPaymentInfo(response, "Void Failed: Invalid PostingGUID");
+        depositAction.checkResultPostingGUID(response, "0");
+    }
+
+
+
+
+
+
+
+
+
+
+    @Test
+    public void depositTopUpWithWrongSite() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                666,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultPostingGUID(response, "0");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultPaymentInfo(response, "Site not found !");
+    }
+
+
+    @Test
+    public void depositTopUpWithWrongRVC() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                BigInteger.valueOf(666),
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultPaymentInfo(response, "Operation error: RVC666 is not configured");
+    }
+
+
+
 
 
 
