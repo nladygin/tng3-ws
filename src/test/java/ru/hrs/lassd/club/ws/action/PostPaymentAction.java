@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class PostPaymentAction extends BaseAction {
 
 
-
+    /* simple */
     public PostPaymentResponse postPayment(
         String number,
         int postPropertyId,
@@ -54,7 +54,7 @@ public class PostPaymentAction extends BaseAction {
     }
 
 
-
+    /* cashierOptMask (ATTACH) */
     public PostPaymentResponse postPayment(
             String number,
             int postPropertyId,
@@ -96,7 +96,7 @@ public class PostPaymentAction extends BaseAction {
     }
 
 
-
+    /* voucher */
     public PostPaymentResponse postPayment(
             String number,
             int postPropertyId,
@@ -138,7 +138,7 @@ public class PostPaymentAction extends BaseAction {
     }
 
 
-
+    /* for DocConfirm */
     public PostPaymentResponse postPayment(
             String number,
             String postingGUID,
