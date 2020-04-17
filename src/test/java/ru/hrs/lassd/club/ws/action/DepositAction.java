@@ -116,7 +116,7 @@ public class DepositAction extends BaseAction{
                 number,
                 null,
                 null,
-                null,
+                false,
                 postPropertyId,
                 registerId,
                 revenueCenterId,
