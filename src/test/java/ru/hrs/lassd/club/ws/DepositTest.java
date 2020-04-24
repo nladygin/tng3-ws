@@ -254,6 +254,104 @@ public class DepositTest extends BaseTest {
     }
 
 
+    @Test
+    public void depositVoidWithWrongVoucherCode() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                "",
+                "666",
+                null,
+                null,
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultPaymentInfo(response, "Can't find voucher 666");
+        depositAction.checkResultCardId(response, data.profileCard);
+    }
+
+
+    @Test
+    public void depositVoidWithWrongVoucherCampaign() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "DEPO",
+                utils.generateDigits(4),
+                "666",
+                "666",
+                null,
+                null,
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultPaymentInfo(response, "Can't find voucher 666");
+        depositAction.checkResultCardId(response, data.profileCard);
+    }
+
+
+    @Test
+    public void depositVoidWithVoucherAndWrongAccount() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "WRONGACCOUNT",
+                utils.generateDigits(4),
+                null,
+                data.profileVoucher,
+                null,
+                null,
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultCardId(response, data.profileCard);
+        depositAction.checkResultPostingGUID(response, "0");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultAccount(response, "WRONGACCOUNT");
+        depositAction.checkResultPaymentInfo(response, "Account Not Found !");
+    }
+
+
+    @Test
+    public void depositTopUpByDeniedAccount() {
+        DepositResponse response = depositAction.deposit(
+                "CID:" + data.profileCard,
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                5.0,
+                data.employeeId,
+                data.employeeName,
+                "NYDEPO",
+                utils.generateDigits(4),
+                true
+        );
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+        depositAction.checkResultCardId(response, data.profileCard);
+        depositAction.checkResultAccount(response, "NYDEPO");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultPostingGUID(response, "0");
+        depositAction.checkResultPaymentInfo(response, "Posting to NY Deposit is not allowed for card type autotest ws !");
+    }
+
+
 
 
 

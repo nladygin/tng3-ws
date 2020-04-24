@@ -139,6 +139,50 @@ public class DepositAction extends BaseAction{
     }
 
 
+    /* voucher */
+    public DepositResponse deposit(
+            String number,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            Double paymentAmount,
+            int cashierEmpId,
+            String cashierEmpName,
+            String account,
+            long checkNumber,
+            String voucherType,
+            String voucher,
+            String voucherRecipient,
+            String voucherItems,
+            Boolean confirm
+    ) {
+        return deposit(
+                number,
+                null,
+                null,
+                false,
+                postPropertyId,
+                registerId,
+                revenueCenterId,
+                paymentAmount,
+                cashierEmpId,
+                cashierEmpName,
+                "",
+                account,
+                checkNumber,
+                false,
+                null,
+                voucherType,
+                voucher,
+                voucherRecipient,
+                voucherItems,
+                null,
+                null,
+                confirm
+        );
+    }
+
+
 
 
     public DepositResponse deposit(

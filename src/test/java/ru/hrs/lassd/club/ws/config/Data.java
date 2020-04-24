@@ -30,6 +30,7 @@ public class Data {
     @Value("${profile_foreign_id}")         public String profileForeignId;
     @Value("${profile_ticket}")             public String profileTicket;
     @Value("${profile_voucher}")            public String profileVoucher;
+    @Value("${profile_voucher_campaign}")   public String profileVoucherCampaign;
     @Value("${profile_voucher_consumed}")   public String profileVoucherConsumed;
     @Value("${profile_voucher_expired}")    public String profileVoucherExpired;
     @Value("${profile_voucher_locked}")     public String profileVoucherLocked;
