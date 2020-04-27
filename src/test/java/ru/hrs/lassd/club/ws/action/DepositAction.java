@@ -56,6 +56,48 @@ public class DepositAction extends BaseAction{
 
 
 
+    /* with posting GUID */
+    public DepositResponse deposit(
+            String number,
+            String postingGUID,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            Double paymentAmount,
+            int cashierEmpId,
+            String cashierEmpName,
+            String account,
+            long checkNumber,
+            Boolean confirm
+    ) {
+        return deposit(
+                number,
+                null,
+                postingGUID,
+                false,
+                postPropertyId,
+                registerId,
+                revenueCenterId,
+                paymentAmount,
+                cashierEmpId,
+                cashierEmpName,
+                "",
+                account,
+                checkNumber,
+                false,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                confirm
+        );
+    }
+
+
+
     /* void */
     public DepositResponse deposit(
             String number,
@@ -152,8 +194,8 @@ public class DepositAction extends BaseAction{
             long checkNumber,
             String voucherType,
             String voucher,
-            String voucherRecipient,
-            String voucherItems,
+            Integer voucherRecipient,
+            Long voucherItems,
             Boolean confirm
     ) {
         return deposit(
@@ -183,6 +225,47 @@ public class DepositAction extends BaseAction{
     }
 
 
+    /* subscription */
+    public DepositResponse deposit(
+            String number,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            Double paymentAmount,
+            int cashierEmpId,
+            String cashierEmpName,
+            String account,
+            long checkNumber,
+            long subscriptionId,
+            Boolean confirm
+    ) {
+        return deposit(
+                number,
+                null,
+                null,
+                false,
+                postPropertyId,
+                registerId,
+                revenueCenterId,
+                paymentAmount,
+                cashierEmpId,
+                cashierEmpName,
+                "",
+                account,
+                checkNumber,
+                false,
+                null,
+                null,
+                null,
+                null,
+                null,
+                subscriptionId,
+                null,
+                confirm
+        );
+    }
+
+
 
 
     public DepositResponse deposit(
@@ -203,8 +286,8 @@ public class DepositAction extends BaseAction{
             XMLGregorianCalendar expiryDate,
             String voucherType,
             String voucher,
-            String voucherRecipient,
-            String voucherItems,
+            Integer voucherRecipient,
+            Long voucherItems,
             Long subscriptionId,
             String description,
             Boolean confirm
@@ -228,8 +311,8 @@ public class DepositAction extends BaseAction{
             request.setExpiryDate(expiryDate);
             request.setVoucherType(voucherType);
             request.setVoucher(voucher);
-            request.setVoucherRecipient(voucherRecipient);
-            request.setVoucherItems(voucherItems);
+            request.setVoucherRecipient(String.valueOf(voucherRecipient));
+            request.setVoucherItems(String.valueOf(voucherItems));
             request.setSubscriptionId(subscriptionId);
             request.setDescription(description);
             request.setConfirm(confirm);
@@ -290,11 +373,28 @@ public class DepositAction extends BaseAction{
     }
 
 
+    public void checkResultPaymentInfoContents(DepositResponse response, String paymentInfoPart) {
+        assertThat(
+                response.getPaymentInfo().contains(paymentInfoPart),
+                CoreMatchers.equalTo(true)
+        );
+    }
+
+
     public void checkResultCardId(DepositResponse response, int cardId) {
         assertThat(
                 Integer.valueOf(response.getCardId()),
                 CoreMatchers.equalTo(cardId)
         );
     }
+
+
+    public void checkResultVoucher(DepositResponse response, String voucher) {
+        assertThat(
+                response.getVoucher(),
+                CoreMatchers.equalTo(voucher)
+        );
+    }
+
 
 }

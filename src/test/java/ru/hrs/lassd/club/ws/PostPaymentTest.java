@@ -274,7 +274,7 @@ public class PostPaymentTest extends BaseTest {
                 data.employeeId,
                 data.employeeName,
                 menuItemListAction.generate(data.miPrice),
-                data.profileVoucher,
+                data.profileVoucherAmount,
                 postPaymentAction.generatePaymentRestrictions(false, false, true)
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
