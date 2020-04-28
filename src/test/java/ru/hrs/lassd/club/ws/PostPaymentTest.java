@@ -344,7 +344,7 @@ public class PostPaymentTest extends BaseTest {
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.FAIL);
         postPaymentAction.checkResultPaymentAmount(response, 0.0);
-        postPaymentAction.checkResultInfo(response, "VOUCHER_EXPIRED");
+        postPaymentAction.checkResultInfo(response, "Voucher expired");
     }
 
 
@@ -366,7 +366,7 @@ public class PostPaymentTest extends BaseTest {
         );
         postPaymentAction.checkResultStatus(response, ResultStatusFlag.FAIL);
         postPaymentAction.checkResultPaymentAmount(response, 0.0);
-        postPaymentAction.checkResultInfo(response, "VOUCHER_LOCKED");
+        postPaymentAction.checkResultInfo(response, "Voucher is locked");
     }
 
 
