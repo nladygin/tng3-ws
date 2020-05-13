@@ -10,44 +10,16 @@ import java.math.BigInteger;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @Component
-public class QuickCheckInAction extends BaseAction{
-
-
-
-    /* required  */
-    public QuickCheckInResponse checkIn(
-            String number,
-            int postPropertyId,
-            UniqueID registerId,
-            BigInteger revenueCenterId,
-            int cashierEmpId,
-            String cashierEmpName
-    ) {
-        return checkIn(
-                number,
-                null,
-                null,
-                postPropertyId,
-                registerId,
-                revenueCenterId,
-                null,
-                null,
-                null,
-                null,
-                cashierEmpId,
-                cashierEmpName,
-                "",
-                null,
-                null,
-                null
-        );
-    }
+public class QuickCheckOutAction extends BaseAction{
 
 
 
 
 
-    public QuickCheckInResponse checkIn(
+
+
+
+    public QuickCheckOutResponse checkOut(
             String number,
             UniqueID clientId,
             String voidFlag,
@@ -55,17 +27,16 @@ public class QuickCheckInAction extends BaseAction{
             UniqueID registerId,
             BigInteger revenueCenterId,
             String bookingNumber,
-            String rateCode,
-            XMLGregorianCalendar expDeparture,
+            String keyNumber,
             String mealPeriod,
             int cashierEmpId,
             String cashierEmpName,
             String cashierOptMask,
-            RegisterKeyList registerKeys,
             String info,
+            String processOvertime,
             String lockerNum
     ) {
-        QuickCheckInRequest request = new QuickCheckInRequest();
+        QuickCheckOutRequest request = new QuickCheckOutRequest();
             request.setNumber(number);
             request.setClientId(clientId);
             request.setVoidFlag(voidFlag);
@@ -73,17 +44,16 @@ public class QuickCheckInAction extends BaseAction{
             request.setRegisterId(registerId);
             request.setRevenueCenterId(String.valueOf(revenueCenterId));
             request.setBookingNumber(bookingNumber);
-            request.setRateCode(rateCode);
-            request.setExpDeparture(expDeparture);
+            request.setKeyNumber(keyNumber);
             request.setMealPeriod(mealPeriod);
             request.setCashierEmpId(String.valueOf(cashierEmpId));
             request.setCashierEmpName(cashierEmpName);
             request.setCashierOptMask(cashierOptMask);
-            request.setRegisterKeys(registerKeys);
             request.setInfo(info);
+            request.setProcessOvertime(processOvertime);
             request.setLockerNum(lockerNum);
 
-        return (QuickCheckInResponse) soapHelper.go(request);
+        return (QuickCheckOutResponse) soapHelper.go(request);
     }
 
 
@@ -94,7 +64,7 @@ public class QuickCheckInAction extends BaseAction{
 
 
 
-    public void checkResultStatus(QuickCheckInResponse response, ResultStatusFlag expectedResultStatusFlag) {
+    public void checkResultStatus(QuickCheckOutResponse response, ResultStatusFlag expectedResultStatusFlag) {
         assertThat(
                 response.getStatus(),
                 CoreMatchers.equalTo(expectedResultStatusFlag)
@@ -102,7 +72,7 @@ public class QuickCheckInAction extends BaseAction{
     }
 
 
-    public void checkResultTextInfo(QuickCheckInResponse response, String textInfo) {
+    public void checkResultTextInfo(QuickCheckOutResponse response, String textInfo) {
         assertThat(
                 response.getTextInfo(),
                 CoreMatchers.equalTo(textInfo)
