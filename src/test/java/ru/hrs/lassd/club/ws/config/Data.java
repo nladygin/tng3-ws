@@ -38,6 +38,7 @@ public class Data {
     @Value("${profile_voucher_locked}")             public String profileVoucherLocked;
     @Value("${profile_subscription}")               public long profileSubscription;
     @Value("${profile_membership}")                 public long profileMembership;
+    @Value("${profile_locker_number}")              public String profileLockerNumber;
 
     @Value("${profile_card_slave}")         public int profileCardSlave;
 
