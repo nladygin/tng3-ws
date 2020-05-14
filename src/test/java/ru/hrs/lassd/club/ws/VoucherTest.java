@@ -32,7 +32,7 @@ public class VoucherTest extends BaseTest {
         voucherAction.checkResultCardId(response, data.profileCard);
     }
 
-
+/* TODO */
     @Test
     public void getLockedVoucher() {
         VoucherResponse response = voucherAction.getVoucher(
@@ -44,6 +44,21 @@ public class VoucherTest extends BaseTest {
         voucherAction.checkResultInactiveReason(response, "");
         voucherAction.checkResultDescription(response, "auto voucher");
         voucherAction.checkResultExpiryDate(response, "2030-01-01");
+        voucherAction.checkResultCardId(response, data.profileCard);
+    }
+
+
+    @Test
+    public void getWrongVoucher() {
+        VoucherResponse response = voucherAction.getVoucher(
+                "666"
+        );
+        voucherAction.checkResultId(response, new BigInteger("2636"));
+        voucherAction.checkResultCampaign(response, "A-auto");
+        voucherAction.checkResultStatus(response, "create");
+        voucherAction.checkResultInactiveReason(response, "");
+        voucherAction.checkResultDescription(response, "auto voucher");
+        voucherAction.checkResultExpiryDate(response, "2021-03-27");
         voucherAction.checkResultCardId(response, data.profileCard);
     }
 
