@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.hrs.lassd.club.ws.action.AddKeyAction;
 import ru.hrs.lassd.club.ws.action.VoucherAction;
+import ru.hrs.lassd.club.ws.entity.Fault;
 import ru.hrs.lassd.club.ws.schema.AddKeyResponse;
 import ru.hrs.lassd.club.ws.schema.ResultStatusFlag;
 import ru.hrs.lassd.club.ws.schema.VoucherResponse;
@@ -26,13 +27,13 @@ public class VoucherTest extends BaseTest {
         voucherAction.checkResultId(response, new BigInteger("2636"));
         voucherAction.checkResultCampaign(response, "A-auto");
         voucherAction.checkResultStatus(response, "create");
-        voucherAction.checkResultInactiveReason(response, "");
+        voucherAction.checkResultInactiveReason(response, null);
         voucherAction.checkResultDescription(response, "auto voucher");
         voucherAction.checkResultExpiryDate(response, "2021-03-27");
         voucherAction.checkResultCardId(response, data.profileCard);
     }
 
-/* TODO */
+
     @Test
     public void getLockedVoucher() {
         VoucherResponse response = voucherAction.getVoucher(
@@ -41,7 +42,7 @@ public class VoucherTest extends BaseTest {
         voucherAction.checkResultId(response, new BigInteger("2634"));
         voucherAction.checkResultCampaign(response, "A-auto");
         voucherAction.checkResultStatus(response, "lock");
-        voucherAction.checkResultInactiveReason(response, "");
+        voucherAction.checkResultInactiveReason(response, "VOUCHER_LOCKED");
         voucherAction.checkResultDescription(response, "auto voucher");
         voucherAction.checkResultExpiryDate(response, "2030-01-01");
         voucherAction.checkResultCardId(response, data.profileCard);
@@ -49,19 +50,43 @@ public class VoucherTest extends BaseTest {
 
 
     @Test
-    public void getWrongVoucher() {
+    public void getExpiredVoucher() {
         VoucherResponse response = voucherAction.getVoucher(
-                "666"
+                data.profileVoucherExpired
         );
-        voucherAction.checkResultId(response, new BigInteger("2636"));
+        voucherAction.checkResultId(response, new BigInteger("2841"));
         voucherAction.checkResultCampaign(response, "A-auto");
-        voucherAction.checkResultStatus(response, "create");
-        voucherAction.checkResultInactiveReason(response, "");
+        voucherAction.checkResultStatus(response, "expire");
+        voucherAction.checkResultInactiveReason(response, "VOUCHER_EXPIRED");
         voucherAction.checkResultDescription(response, "auto voucher");
-        voucherAction.checkResultExpiryDate(response, "2021-03-27");
+        voucherAction.checkResultExpiryDate(response, "2020-01-02");
         voucherAction.checkResultCardId(response, data.profileCard);
     }
 
+
+    @Test
+    public void getConsumedVoucher() {
+        VoucherResponse response = voucherAction.getVoucher(
+                data.profileVoucherConsumed
+        );
+        voucherAction.checkResultId(response, new BigInteger("2694"));
+        voucherAction.checkResultCampaign(response, "A-auto");
+        voucherAction.checkResultStatus(response, "consume");
+        voucherAction.checkResultInactiveReason(response, "VOUCHER_CONSUMED");
+        voucherAction.checkResultDescription(response, "auto voucher");
+        voucherAction.checkResultExpiryDate(response, "2021-03-31");
+        voucherAction.checkResultCardId(response, data.profileCard);
+    }
+
+
+    @Test
+    public void getWrongVoucher() {
+        Fault response = voucherAction.getWrongVoucher(
+                "666",
+                null
+        );
+        voucherAction.checkFaultMessageIsEqualTo(response, "Unknown voucher code");
+    }
 
 
 

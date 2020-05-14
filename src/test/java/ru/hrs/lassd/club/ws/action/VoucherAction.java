@@ -2,6 +2,7 @@ package ru.hrs.lassd.club.ws.action;
 
 import org.hamcrest.CoreMatchers;
 import org.springframework.stereotype.Component;
+import ru.hrs.lassd.club.ws.entity.Fault;
 import ru.hrs.lassd.club.ws.schema.*;
 
 import java.math.BigInteger;
@@ -29,6 +30,17 @@ public class VoucherAction extends BaseAction{
             request.setCode(code);
             request.setLang(lang);
         return (VoucherResponse) soapHelper.go(request);
+    }
+
+
+    public Fault getWrongVoucher(
+            String code,
+            String lang
+    ) {
+        VoucherRequest request = new VoucherRequest();
+            request.setCode(code);
+            request.setLang(lang);
+        return (Fault) soapHelper.go(request);
     }
 
 
