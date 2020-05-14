@@ -42,7 +42,7 @@ public class VoucherTest extends BaseTest {
         voucherAction.checkResultId(response, new BigInteger("2634"));
         voucherAction.checkResultCampaign(response, "A-auto");
         voucherAction.checkResultStatus(response, "lock");
-        voucherAction.checkResultInactiveReason(response, "VOUCHER_LOCKED");
+        voucherAction.checkResultInactiveReason(response, "Voucher is locked");
         voucherAction.checkResultDescription(response, "auto voucher");
         voucherAction.checkResultExpiryDate(response, "2030-01-01");
         voucherAction.checkResultCardId(response, data.profileCard);
@@ -57,7 +57,7 @@ public class VoucherTest extends BaseTest {
         voucherAction.checkResultId(response, new BigInteger("2841"));
         voucherAction.checkResultCampaign(response, "A-auto");
         voucherAction.checkResultStatus(response, "expire");
-        voucherAction.checkResultInactiveReason(response, "VOUCHER_EXPIRED");
+        voucherAction.checkResultInactiveReason(response, "Voucher expired");
         voucherAction.checkResultDescription(response, "auto voucher");
         voucherAction.checkResultExpiryDate(response, "2020-01-02");
         voucherAction.checkResultCardId(response, data.profileCard);
@@ -72,7 +72,7 @@ public class VoucherTest extends BaseTest {
         voucherAction.checkResultId(response, new BigInteger("2694"));
         voucherAction.checkResultCampaign(response, "A-auto");
         voucherAction.checkResultStatus(response, "consume");
-        voucherAction.checkResultInactiveReason(response, "VOUCHER_CONSUMED");
+        voucherAction.checkResultInactiveReason(response, "Voucher is already consumed");
         voucherAction.checkResultDescription(response, "auto voucher");
         voucherAction.checkResultExpiryDate(response, "2021-03-31");
         voucherAction.checkResultCardId(response, data.profileCard);
