@@ -528,6 +528,68 @@ public class AcquireLoyaltyTest extends BaseTest {
     }
 
 
+    @Test
+    public void createCheckWithDoubleAcquireLoyalty() {
+        AcquireLoyaltyResponse response = acquireLoyaltyAction.acquireLoyalty(
+                "CID:"+data.profileCard,
+                String.valueOf(utils.generateDigits(10)),
+                data.siteId,
+                uniqueIDAction.generate(data.wsId),
+                data.rvcNumber,
+                data.miPrice,
+                String.valueOf(utils.generateDigits(4)),
+                data.employeeId,
+                data.employeeName,
+                menuItemListAction.generate(data.miPrice),
+                paymentOptionsTypeAction.generate(
+                        false,
+                        true,
+                        false,
+                        true,
+                        true,
+                        true,
+                        true
+                )
+        );
+        acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+        acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
+        acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, (data.miPrice - data.miPrice/10)/2);
+
+            String postingGUID = response.getPostingGUID();
+
+                response = acquireLoyaltyAction.acquireLoyalty(
+                        "CID:"+data.profileCard,
+                        postingGUID,
+                        data.siteId,
+                        uniqueIDAction.generate(data.wsId),
+                        data.rvcNumber,
+                        data.miPrice,
+                        String.valueOf(utils.generateDigits(4)),
+                        data.employeeId,
+                        data.employeeName,
+                        menuItemListAction.generate(data.miPrice),
+                        paymentOptionsTypeAction.generate(
+                                false,
+                                true,
+                                false,
+                                true,
+                                true,
+                                true,
+                                true
+                        )
+                );
+                acquireLoyaltyAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+                acquireLoyaltyAction.checkItemDiscount(response, 0, data.miPrice/-10);
+                acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
+                acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
+                acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
+                acquireLoyaltyAction.checkItemPoints(response, 0, (data.miPrice - data.miPrice/10)/2);
+    }
+
+
 
 
 
