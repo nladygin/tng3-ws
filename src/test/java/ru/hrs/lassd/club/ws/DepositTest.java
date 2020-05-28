@@ -165,42 +165,45 @@ public class DepositTest extends BaseTest {
 
     @Test
     public void depositTopUpAndVoid() {
-        DepositResponse response = depositAction.deposit(
-                "CID:" + data.profileCard,
-                data.siteId,
-                uniqueIDAction.generate(data.wsId),
-                data.rvcNumber,
-                5.0,
-                data.employeeId,
-                data.employeeName,
-                "DEPO",
-                utils.generateDigits(4),
-                true
-        );
-        depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        depositAction.checkResultPaymentAmount(response, 5.0);
-
-            String postingGUID = response.getPostingGUID();
-            long checkNumber = utils.generateDigits(4);
-
-            response = depositAction.deposit(
+            DepositResponse response = depositAction.deposit(
                     "CID:" + data.profileCard,
-                    postingGUID,
-                    true,
                     data.siteId,
                     uniqueIDAction.generate(data.wsId),
                     data.rvcNumber,
+                    5.0,
                     data.employeeId,
                     data.employeeName,
                     "DEPO",
-                    checkNumber,
+                    utils.generateDigits(4),
                     true
             );
-        depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
-        depositAction.checkResultPaymentAmount(response, 0.0);
-        depositAction.checkResultCheckNumber(response, String.valueOf(checkNumber));
-        depositAction.checkResultPostingGUID(response, postingGUID);
-        depositAction.checkResultAccount(response, "DEPO");
+            depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+            depositAction.checkResultPaymentAmount(response, 5.0);
+            depositAction.checkResultAccount(response, "DEPO");
+            depositAction.checkResultCardId(response, data.profileCard);
+
+                String postingGUID = response.getPostingGUID();
+                long checkNumber = Long.parseLong(response.getCheckNumber());
+
+                    response = depositAction.deposit(
+                            "CID:" + data.profileCard,
+                            postingGUID,
+                            true,
+                            data.siteId,
+                            uniqueIDAction.generate(data.wsId),
+                            data.rvcNumber,
+                            data.employeeId,
+                            data.employeeName,
+                            "DEPO",
+                            checkNumber,
+                            true
+                    );
+                depositAction.checkResultStatus(response, ResultStatusFlag.SUCCESS);
+                depositAction.checkResultPaymentAmount(response, 0.0);
+                depositAction.checkResultCheckNumber(response, checkNumber);
+                depositAction.checkResultPostingGUID(response, postingGUID);
+                depositAction.checkResultAccount(response, "DEPO");
+                //depositAction.checkResultCardId(response, data.profileCard);
     }
 
 

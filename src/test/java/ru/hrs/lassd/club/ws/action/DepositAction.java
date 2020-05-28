@@ -373,9 +373,9 @@ public class DepositAction extends BaseAction{
     }
 
 
-    public void checkResultCheckNumber(DepositResponse response, String checkNumber) {
+    public void checkResultCheckNumber(DepositResponse response, long checkNumber) {
         assertThat(
-                response.getCheckNumber(),
+                Long.parseLong(response.getCheckNumber()),
                 CoreMatchers.equalTo(checkNumber)
         );
     }
