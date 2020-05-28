@@ -2,6 +2,7 @@ package ru.hrs.lassd.club.ws.action;
 
 import org.hamcrest.CoreMatchers;
 import org.springframework.stereotype.Component;
+import ru.hrs.lassd.club.ws.entity.Fault;
 import ru.hrs.lassd.club.ws.schema.*;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -321,6 +322,37 @@ public class DepositAction extends BaseAction{
     }
 
 
+    /* required with fault result */
+    public Fault depositFault(
+            String number,
+            int postPropertyId,
+            UniqueID registerId,
+            BigInteger revenueCenterId,
+            Double paymentAmount,
+            int cashierEmpId,
+            String cashierEmpName,
+            String account,
+            long checkNumber,
+            Boolean confirm
+    ) {
+        DepositRequest request = new DepositRequest();
+
+        request.setNumber(number);
+        request.setPostPropertyId(String.valueOf(postPropertyId));
+        request.setRegisterId(registerId);
+        request.setRevenueCenterId(String.valueOf(revenueCenterId));
+        request.setPaymentAmount(String.valueOf(paymentAmount));
+        request.setCashierEmpId(String.valueOf(cashierEmpId));
+        request.setCashierEmpName(cashierEmpName);
+        request.setAccount(account);
+        request.setCheckNumber(String.valueOf(checkNumber));
+        request.setConfirm(confirm);
+
+        return (Fault) soapHelper.go(request);
+    }
+
+
+
 
 
 
@@ -393,6 +425,14 @@ public class DepositAction extends BaseAction{
         assertThat(
                 response.getVoucher(),
                 CoreMatchers.equalTo(voucher)
+        );
+    }
+
+
+    public void checkResultFaultStringIsEqualTo(Fault response, String expectedFaultString) {
+        assertThat(
+                response.getFaultString(),
+                CoreMatchers.equalTo(expectedFaultString)
         );
     }
 

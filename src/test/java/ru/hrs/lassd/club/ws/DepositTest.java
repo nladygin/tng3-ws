@@ -1,12 +1,14 @@
 package ru.hrs.lassd.club.ws;
 
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.hrs.lassd.club.ws.action.DepositAction;
 import ru.hrs.lassd.club.ws.action.UniqueIDAction;
+import ru.hrs.lassd.club.ws.entity.Fault;
 import ru.hrs.lassd.club.ws.schema.DepositResponse;
 import ru.hrs.lassd.club.ws.schema.ResultStatusFlag;
 
@@ -38,7 +40,7 @@ public class DepositTest extends BaseTest {
     }
 
 
-    @Test
+    @Test @Ignore("TODO")
     public void depositTopUpByWrongCardId() {
         DepositResponse response = depositAction.deposit(
                 "CID:" + "666",
@@ -86,7 +88,7 @@ public class DepositTest extends BaseTest {
 
     @Test
     public void depositTopUpByLockedCard() {
-        DepositResponse response = depositAction.deposit(
+        Fault response = depositAction.depositFault(
                 "MSW:" + data.profileLockedMagstripe,
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
@@ -98,11 +100,7 @@ public class DepositTest extends BaseTest {
                 utils.generateDigits(4),
                 true
         );
-        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
-        depositAction.checkResultAccount(response, "DEPO");
-        depositAction.checkResultPaymentAmount(response, 0.0);
-        depositAction.checkResultPaymentInfo(response, "Card is locked !");
-        depositAction.checkResultPostingGUID(response, "0");
+        depositAction.checkResultFaultStringIsEqualTo(response, "Card is blocked");
     }
 
 
@@ -146,7 +144,7 @@ public class DepositTest extends BaseTest {
     }
 
 
-    @Test
+    @Test @Ignore("TODO")
     public void depositLoanWithoutExpiry() {
         DepositResponse response = depositAction.deposit(
                 "CID:" + data.profileCard,
