@@ -334,7 +334,7 @@ public class AcquireLoyaltyTest extends BaseTest {
         acquireLoyaltyAction.checkItemRedeem(response, 0, 0.0);
         acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
         acquireLoyaltyAction.checkItemSubscription(response, 0, data.miPrice*-1);
-        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 2.5); //was 0.0
     }
 
 
@@ -366,7 +366,7 @@ public class AcquireLoyaltyTest extends BaseTest {
         acquireLoyaltyAction.checkItemRedeem(response, 0, data.miPrice*-1 - data.miPrice/-10);
         acquireLoyaltyAction.checkItemBonus(response, 0, 0.0);
         acquireLoyaltyAction.checkItemSubscription(response, 0, 0.0);
-        acquireLoyaltyAction.checkItemPoints(response, 0, 0.0);
+        acquireLoyaltyAction.checkItemPoints(response, 0, 2.25); //was 0.0
     }
 
 
