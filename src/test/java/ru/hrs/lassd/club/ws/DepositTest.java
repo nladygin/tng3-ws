@@ -88,7 +88,7 @@ public class DepositTest extends BaseTest {
 
     @Test
     public void depositTopUpByLockedCard() {
-        Fault response = depositAction.depositFault(
+        DepositResponse response = depositAction.deposit(
                 "MSW:" + data.profileLockedMagstripe,
                 data.siteId,
                 uniqueIDAction.generate(data.wsId),
@@ -100,7 +100,12 @@ public class DepositTest extends BaseTest {
                 utils.generateDigits(4),
                 true
         );
-        depositAction.checkResultFaultStringIsEqualTo(response, "Card is blocked");
+        depositAction.checkResultStatus(response, ResultStatusFlag.FAIL);
+//        depositAction.checkResultCardId(response, data.profileCard);
+        depositAction.checkResultAccount(response, "DEPO");
+        depositAction.checkResultPaymentAmount(response, 0.0);
+        depositAction.checkResultPaymentInfo(response, "Card is blocked");
+        depositAction.checkResultPostingGUID(response, "0");
     }
 
 

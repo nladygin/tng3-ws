@@ -322,34 +322,6 @@ public class DepositAction extends BaseAction{
     }
 
 
-    /* required with fault result */
-    public Fault depositFault(
-            String number,
-            int postPropertyId,
-            UniqueID registerId,
-            BigInteger revenueCenterId,
-            Double paymentAmount,
-            int cashierEmpId,
-            String cashierEmpName,
-            String account,
-            long checkNumber,
-            Boolean confirm
-    ) {
-        DepositRequest request = new DepositRequest();
-
-        request.setNumber(number);
-        request.setPostPropertyId(String.valueOf(postPropertyId));
-        request.setRegisterId(registerId);
-        request.setRevenueCenterId(String.valueOf(revenueCenterId));
-        request.setPaymentAmount(String.valueOf(paymentAmount));
-        request.setCashierEmpId(String.valueOf(cashierEmpId));
-        request.setCashierEmpName(cashierEmpName);
-        request.setAccount(account);
-        request.setCheckNumber(String.valueOf(checkNumber));
-        request.setConfirm(confirm);
-
-        return (Fault) soapHelper.go(request);
-    }
 
 
 
