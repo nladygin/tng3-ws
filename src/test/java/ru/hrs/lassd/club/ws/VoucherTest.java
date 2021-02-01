@@ -29,7 +29,7 @@ public class VoucherTest extends BaseTest {
         voucherAction.checkResultStatus(response, "create");
         voucherAction.checkResultInactiveReason(response, null);
         voucherAction.checkResultDescription(response, "auto voucher");
-        voucherAction.checkResultExpiryDate(response, "2021-03-27");
+        voucherAction.checkResultExpiryDate(response, "2030-01-01");
         voucherAction.checkResultCardId(response, data.profileCard);
     }
 
