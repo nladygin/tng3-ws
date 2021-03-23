@@ -81,7 +81,7 @@ public class DepositTest extends BaseTest {
 //        depositAction.checkResultCardId(response, data.profileCard);
         depositAction.checkResultAccount(response, "DEPO");
         depositAction.checkResultPaymentAmount(response, 0.0);
-        depositAction.checkResultPaymentInfo(response, "Card is expired");
+        depositAction.checkResultPaymentInfo(response, "Card expired !");
         depositAction.checkResultPostingGUID(response, "0");
     }
 
