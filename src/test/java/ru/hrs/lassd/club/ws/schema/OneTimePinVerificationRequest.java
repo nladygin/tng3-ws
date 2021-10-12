@@ -25,12 +25,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="Status" type="{http://htng.org/PWS/2008A/SingleGuestItinerary/Common/Types}ResultStatusFlag"/>
- *         &lt;element name="PostingGUID" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PaymentAmount" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="Account" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PmsRoom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="PaymentInfo" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="Number" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="PostingGUID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="PaymentAmount" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="RequestId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -41,51 +40,48 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "status",
+    "number",
     "postingGUID",
     "paymentAmount",
-    "account",
-    "pmsRoom",
-    "paymentInfo"
+    "requestId",
+    "note"
 })
-@XmlRootElement(name = "PostPaymentResponse")
-public class PostPaymentResponse {
+@XmlRootElement(name = "OneTimePinVerificationRequest")
+public class OneTimePinVerificationRequest {
 
-    @XmlElement(name = "Status", required = true)
-    protected ResultStatusFlag status;
-    @XmlElement(name = "PostingGUID", required = true)
+    @XmlElement(name = "Number", required = true)
+    protected String number;
+    @XmlElement(name = "PostingGUID")
     protected String postingGUID;
-    @XmlElement(name = "PaymentAmount", required = true)
+    @XmlElement(name = "PaymentAmount")
     protected String paymentAmount;
-    @XmlElement(name = "Account", required = true)
-    protected String account;
-    @XmlElement(name = "PmsRoom")
-    protected String pmsRoom;
-    @XmlElement(name = "PaymentInfo", required = true)
-    protected String paymentInfo;
+    @XmlElement(name = "RequestId")
+    protected String requestId;
+    @XmlElement(name = "Note")
+    protected String note;
 
     /**
-     * Gets the value of the status property.
+     * Gets the value of the number property.
      * 
      * @return
      *     possible object is
-     *     {@link ResultStatusFlag }
+     *     {@link String }
      *     
      */
-    public ResultStatusFlag getStatus() {
-        return status;
+    public String getNumber() {
+        return number;
     }
 
     /**
-     * Sets the value of the status property.
+     * Sets the value of the number property.
      * 
      * @param value
      *     allowed object is
-     *     {@link ResultStatusFlag }
+     *     {@link String }
      *     
      */
-    public void setStatus(ResultStatusFlag value) {
-        this.status = value;
+    public void setNumber(String value) {
+        this.number = value;
     }
 
     /**
@@ -137,75 +133,51 @@ public class PostPaymentResponse {
     }
 
     /**
-     * Gets the value of the account property.
+     * Gets the value of the requestId property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getAccount() {
-        return account;
+    public String getRequestId() {
+        return requestId;
     }
 
     /**
-     * Sets the value of the account property.
+     * Sets the value of the requestId property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setAccount(String value) {
-        this.account = value;
+    public void setRequestId(String value) {
+        this.requestId = value;
     }
 
     /**
-     * Gets the value of the pmsRoom property.
+     * Gets the value of the note property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getPmsRoom() {
-        return pmsRoom;
+    public String getNote() {
+        return note;
     }
 
     /**
-     * Sets the value of the pmsRoom property.
+     * Sets the value of the note property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setPmsRoom(String value) {
-        this.pmsRoom = value;
-    }
-
-    /**
-     * Gets the value of the paymentInfo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPaymentInfo() {
-        return paymentInfo;
-    }
-
-    /**
-     * Sets the value of the paymentInfo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPaymentInfo(String value) {
-        this.paymentInfo = value;
+    public void setNote(String value) {
+        this.note = value;
     }
 
 }

@@ -26,9 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="Status" type="{http://htng.org/PWS/2008A/SingleGuestItinerary/Common/Types}ResultStatusFlag"/>
- *         &lt;element name="Account" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PaymentInfo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="Debug" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="RequestId" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="Info" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -40,21 +39,18 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "status",
-    "account",
-    "paymentInfo",
-    "debug"
+    "requestId",
+    "info"
 })
-@XmlRootElement(name = "DepositPackageResponse")
-public class DepositPackageResponse {
+@XmlRootElement(name = "OneTimePinVerificationResponse")
+public class OneTimePinVerificationResponse {
 
     @XmlElement(name = "Status", required = true)
     protected ResultStatusFlag status;
-    @XmlElement(name = "Account", required = true)
-    protected String account;
-    @XmlElement(name = "PaymentInfo")
-    protected String paymentInfo;
-    @XmlElement(name = "Debug")
-    protected String debug;
+    @XmlElement(name = "RequestId", required = true)
+    protected String requestId;
+    @XmlElement(name = "Info")
+    protected String info;
 
     /**
      * Gets the value of the status property.
@@ -81,75 +77,51 @@ public class DepositPackageResponse {
     }
 
     /**
-     * Gets the value of the account property.
+     * Gets the value of the requestId property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getAccount() {
-        return account;
+    public String getRequestId() {
+        return requestId;
     }
 
     /**
-     * Sets the value of the account property.
+     * Sets the value of the requestId property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setAccount(String value) {
-        this.account = value;
+    public void setRequestId(String value) {
+        this.requestId = value;
     }
 
     /**
-     * Gets the value of the paymentInfo property.
+     * Gets the value of the info property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getPaymentInfo() {
-        return paymentInfo;
+    public String getInfo() {
+        return info;
     }
 
     /**
-     * Sets the value of the paymentInfo property.
+     * Sets the value of the info property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setPaymentInfo(String value) {
-        this.paymentInfo = value;
-    }
-
-    /**
-     * Gets the value of the debug property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDebug() {
-        return debug;
-    }
-
-    /**
-     * Sets the value of the debug property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDebug(String value) {
-        this.debug = value;
+    public void setInfo(String value) {
+        this.info = value;
     }
 
 }

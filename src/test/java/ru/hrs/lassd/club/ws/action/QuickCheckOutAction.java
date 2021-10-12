@@ -14,6 +14,33 @@ public class QuickCheckOutAction extends BaseAction{
 
 
 
+    /* simple */
+    public QuickCheckOutResponse checkOut(
+            String number,
+            int postPropertyId,
+            int revenueCenterId,
+            int cashierEmpId,
+            String cashierEmpName,
+            String info
+    ) {
+        QuickCheckOutRequest request = new QuickCheckOutRequest();
+        request.setNumber(number);
+        request.setClientId(null);
+        request.setVoidFlag("F");
+        request.setPostPropertyId(String.valueOf(postPropertyId));
+        request.setRegisterId(null);
+        request.setRevenueCenterId(String.valueOf(revenueCenterId));
+        request.setBookingNumber(null);
+        request.setKeyNumber(null);
+        request.setMealPeriod(null);
+        request.setCashierEmpId(String.valueOf(cashierEmpId));
+        request.setCashierEmpName(cashierEmpName);
+        request.setCashierOptMask(null);
+        request.setInfo(info);
+        request.setProcessOvertime(null);
+        request.setLockerNum(null);
+        return (QuickCheckOutResponse) soapHelper.go(request);
+    }
 
 
 
