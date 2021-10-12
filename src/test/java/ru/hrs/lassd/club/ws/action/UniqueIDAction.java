@@ -5,6 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.hrs.lassd.club.ws.config.Data;
 import ru.hrs.lassd.club.ws.schema.UniqueID;
+import ru.hrs.lassd.club.ws.schema.UniqueIDList;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class UniqueIDAction {
@@ -41,6 +46,12 @@ public class UniqueIDAction {
             uniqueID.setSource(source);
 
         return uniqueID;
+    }
+
+    public UniqueIDList generateList(UniqueID ... uniqueIDS) {
+        UniqueIDList uniqueIDList = new UniqueIDList();
+            uniqueIDList.getUniqueID().addAll(Arrays.asList(uniqueIDS));
+        return uniqueIDList;
     }
 
 
